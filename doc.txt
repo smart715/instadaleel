@@ -1,0 +1,14 @@
+1. Purchase package design
+2. Purchase package warning message ( You already have 'package name'. Are you sure you want to buy this new package ?)
+3. Video show 
+4. My package ( total product + feature product
+ )
+5. Feature product title
+6. product card same size
+7. admin panel - all admins, all user
+8. query mail text left align 
+9. call now number popup
+10. send email icon
+11. show details on seller and dealer page
+12. profile edit city dropdown
+13. Event
