@@ -60,6 +60,36 @@ class PermissionSedder extends Seeder
                 'display_name' => '-- App Info',
                 'module_id' => 2,
             ],
+            [
+                'id' => 8,
+                'key' => 'banner',
+                'display_name' => 'Banner',
+                'module_id' => 2,
+            ],
+            [
+                'id' => 9,
+                'key' => 'add_banner',
+                'display_name' => '-- Add Banner',
+                'module_id' => 2,
+            ],
+            [
+                'id' => 10,
+                'key' => 'edit_banner',
+                'display_name' => '-- Edit Banner',
+                'module_id' => 2,
+            ],
+            [
+                'id' => 11,
+                'key' => 'view_banner',
+                'display_name' => '-- View Banner',
+                'module_id' => 2,
+            ],
+            [
+                'id' => 12,
+                'key' => 'delete_banner',
+                'display_name' => '-- Delete Banner',
+                'module_id' => 2,
+            ],
         ]);
     }
 }
