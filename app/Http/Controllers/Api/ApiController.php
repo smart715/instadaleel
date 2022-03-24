@@ -12,12 +12,12 @@ class ApiController extends Controller
 {
     
     //get_banner function start
-    public function get_banner(Request $request){
+    public function get_banner(){
         try{
             $banner = Banner::where("is_active", true)->orderBy("position","asc")->select("title","image","button_text","link")->get();
 
             return response()->json([
-                'status' => 'error',
+                'status' => 'success',
                 'data' => new BannerResourceCollection($banner)
             ],200);
         }
