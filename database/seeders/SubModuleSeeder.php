@@ -59,11 +59,22 @@ class SubModuleSeeder extends Seeder
             //module id 2 end
 
 
+
+            //module id 3 start
+            [
+                'id' => 5,
+                'name' => 'All Category',
+                'key' => 'all_category',
+                'position' => 1,
+                'route' => 'category.all',
+                'module_id' => 3,
+            ],
+            //module id 3 end
             
 
         
         ]);
 
-        //last id 4
+        //last id 5
     }
 }

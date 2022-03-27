@@ -33,6 +33,15 @@ class ModuleSeeder extends Seeder
                 'position' =>6,
                 'route' => null,
             ],
+
+            [
+                'id' => 3,
+                'name' => 'App Datas',
+                'key' => 'app_data_module',
+                'icon' => 'fas fa-mobile',
+                'position' =>2,
+                'route' => null,
+            ],
             
         ]);
     }

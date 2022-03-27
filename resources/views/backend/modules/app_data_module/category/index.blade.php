@@ -21,7 +21,7 @@
                               </li>
                               <li class="breadcrumb-item active">
                                    <a href="#">
-                                        All Banner
+                                        All Category
                                    </a>
                               </li>
                          </ol>
@@ -38,8 +38,8 @@
                     <div class="col-md-12">
                          <div class="card card-primary card-outline table-responsive">
                               <div class="card-header text-right">
-                                   @if( can('add_banner') )
-                                   <button type="button" data-content="{{ route('banner.add.modal') }}" data-target="#myModal" class="btn btn-outline-dark" data-toggle="modal">
+                                   @if( can('add_category') )
+                                   <button type="button" data-content="{{ route('category.add.modal') }}" data-target="#myModal" class="btn btn-outline-dark" data-toggle="modal">
                                         Add
                                    </button>
                                    @endif
@@ -49,8 +49,9 @@
                                         <thead>
                                              <tr>
                                                   <th>Position</th>
-                                                  <th>Title</th>
-                                                  <th>Image</th>
+                                                  <th>Icon</th>
+                                                  <th>Name</th>
+                                                  <th>Parent</th>
                                                   <th>Status</th>
                                                   <th>Action</th>
                                              </tr>
@@ -83,18 +84,22 @@
           $('.custom-datatable').DataTable({
                processing: true,
                serverSide: true,
-               ajax: "{{ route('banner.data') }}",
+               ajax: "{{ route('category.data') }}",
                columns: [{
                          data: 'position',
                          name: 'position'
                     },
                     {
-                         data: 'title',
-                         name: 'title'
+                         data: 'icon',
+                         name: 'icon'
                     },
                     {
-                         data: 'image',
-                         name: 'image'
+                         data: 'name',
+                         name: 'name'
+                    },
+                    {
+                         data: 'parent',
+                         name: 'parent'
                     },
                     {
                          data: 'is_active',
