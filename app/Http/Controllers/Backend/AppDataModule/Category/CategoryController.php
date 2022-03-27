@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AppDataModule\Category;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
@@ -33,10 +34,20 @@ class CategoryController extends Controller
 
 
     //data function start
-    public function data(){
+    public function data($id){
         try{
             if( can('all_category') ){
-                $category = Category::orderBy("position","asc")->select("id","position","name","icon","is_active","category_id")->get();
+
+                if( $id == "parent" ){
+                    $category = Category::orderBy("position","asc")
+                    ->where("category_id", null)
+                    ->select("id","position","name","icon","is_active","category_id")->get();
+                }
+                else{
+                    $category = Category::orderBy("position","asc")
+                    ->where("category_id", $id)
+                    ->select("id","position","name","icon","is_active","category_id")->get();
+                }
     
                 return DataTables::of($category)
                 ->rawColumns(['action', 'is_active','icon','parent'])
@@ -79,17 +90,10 @@ class CategoryController extends Controller
                             </a>
                             ': '') .'
 
-                            '.( can("delete_banner") ? '
-                            <a class="dropdown-item" href="#" data-content="'.route('banner.delete.modal',encrypt($category->id)).'" data-target="#myModal" class="btn btn-outline-dark" data-toggle="modal">
-                                <i class="fas fa-trash"></i>
-                                Delete
-                            </a>
-                            ': '') .'
-
-                            '.( can("view_banner") ? '
-                            <a class="dropdown-item" href="#" data-content="'.route('banner.view.modal',encrypt($category->id)).'" data-target="#myModal" class="btn btn-outline-dark" data-toggle="modal">
-                                <i class="fas fa-eye"></i>
-                                View
+                            '.( can("all_category") ? '
+                            <a class="dropdown-item" href="'.route('get.subcategory',encrypt($category->id)).'" class="btn btn-outline-dark">
+                                <i class="fas fa-plus"></i>
+                                Sub Category
                             </a>
                             ': '') .'
     
@@ -110,11 +114,16 @@ class CategoryController extends Controller
 
 
     //add_modal function start
-    public function add_modal(){
+    public function add_modal($id){
         try{
             if( can("add_category") ){
-                $categories = Category::where("is_active",true)->orderBy("id","desc")->select("id","name","category_id")->get();
-                return view("backend.modules.app_data_module.category.modals.add", compact("categories"));
+                if( $id == 'parent' ){
+                    return view("backend.modules.app_data_module.category.modals.add");
+                }
+                else{
+                    $category = Category::where("id", $id)->select("id","name")->first();
+                    return view("backend.modules.app_data_module.category.modals.add", compact('category'));
+                }
             }
             else{
                 return unauthorized();
@@ -132,7 +141,7 @@ class CategoryController extends Controller
         try{
             if( can("add_category") ){
                 $validator = Validator::make($request->all(), [
-                    "position" => "required|integer|min:1|unique:categories,position",
+                    "position" => "required|integer|min:1",
                     "name" => "required|unique:categories,name",
                     // "icon" => "required|mimes:jpg,png,jpeg,webp,svg|dimensions:width=50,height=50",
                     "icon" => "required|mimes:jpg,png,jpeg,webp,svg",
@@ -143,6 +152,19 @@ class CategoryController extends Controller
                     return response()->json(['errors' => $validator->errors()],422);
                 }
                 else{
+
+                    if( $request->category_id == "NoParent" ){
+                        if( Category::where("position", $request->position)->where("category_id", null)->first() ){
+                            return response()->json(['warning' => 'Position already taken.'],200);
+                        }
+                    }
+                    else{
+                        if( Category::where("position", $request->position)->where("category_id", $request->category_id)->first() ){
+                            return response()->json(['warning' => 'Position already taken.'],200);
+                        }
+                    }
+
+                    
                     $category =  new Category();
 
                     $category->position = $request->position;
@@ -169,6 +191,7 @@ class CategoryController extends Controller
                         return response()->json(['success' => 'New category created'],200);
                     }
                     
+                    
 
                 }
             }
@@ -182,4 +205,30 @@ class CategoryController extends Controller
     }
     //add function end
 
+
+    //get_sub_category function start
+    public function get_sub_category($id){
+        try{
+            if( can("all_category") ){
+                $category = Category::where("id", decrypt($id))->select("id","name","category_id")->first();
+                if( $category ){
+                    $roots = root($category->id);
+                    $sub_categories = Category::where("category_id", $category->id)->select("id","name","category_id")->get();
+
+                    return view("backend.modules.app_data_module.category.sub_category", compact('sub_categories','category','roots'));
+                }
+                else{
+                    return back()->with('warning','No category found');
+                }
+
+            }
+            else{
+                return view("errors.403");
+            }
+        }
+        catch( Exception $e ){
+            return back()->with('warning', $e->getMessage());
+        }
+    }
+    //get_sub_category function end
 }

@@ -59,7 +59,14 @@
                <div class="col-md-12 col-12 form-group">
                     <label>Select Parent</label><span class="require-span">*</span>
                     <select name="category_id" class="form-control select2">
-                         <option value="NoParent" selected>No Parent</option>
+
+
+                         @if( isset($category) )
+                              <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+                         @else
+                              <option value="NoParent" selected>No Parent</option>
+                         @endif
+
                          @foreach( $categories as $category )
                               <option value="{{ $category->id }}">
                                    {{ $category->name }} ( Parent Category )

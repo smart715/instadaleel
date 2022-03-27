@@ -9,11 +9,15 @@ Route::group(['prefix' => 'category'], function(){
      Route::get("/",[CategoryController::class,"index"])->name("category.all");
 
      //data route
-     Route::get("data",[CategoryController::class,"data"])->name("category.data");
+     Route::get("data/{id}",[CategoryController::class,"data"])->name("category.data");
 
      //add route
-     Route::get("add-modal",[CategoryController::class,"add_modal"])->name("category.add.modal");
+     Route::get("add-modal/{id}",[CategoryController::class,"add_modal"])->name("category.add.modal");
      Route::post("add",[CategoryController::class,"add"])->name("category.add");
+
+     //sub category route
+     Route::get("get-sub-category/{id}",[CategoryController::class,"get_sub_category"])->name("get.subcategory");
+
 
 });
 

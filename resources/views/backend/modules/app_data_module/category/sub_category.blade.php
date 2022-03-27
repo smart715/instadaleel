@@ -20,10 +20,27 @@
                                    </a>
                               </li>
                               <li class="breadcrumb-item active">
-                                   <a href="#">
+                                   <a href="{{ route('category.all') }}">
                                         All Category
                                    </a>
                               </li>
+                              
+                              @foreach( collect($roots)->sortByDesc("id",true) as $root )
+                              <li class="breadcrumb-item active">
+                                   @if( $root['data']['parent'] )
+                                   <a href="{{ route('get.subcategory',encrypt($root['data']['id'])) }}">
+                                        {{ $root['data']['name'] }}
+                                   </a>
+                                   @else
+                                   <a href="{{ route('get.subcategory',encrypt($root['data']['id'])) }}">
+                                        {{ $root['data']['name'] }}
+                                   </a>
+                                   @endif
+                              </li>
+                              @endforeach
+
+                                   
+
                          </ol>
                     </div><!-- /.col -->
                </div><!-- /.row -->
@@ -39,7 +56,7 @@
                          <div class="card card-primary card-outline table-responsive">
                               <div class="card-header text-right">
                                    @if( can('add_category') )
-                                   <button type="button" data-content="{{ route('category.add.modal','parent') }}" data-target="#myModal" class="btn btn-outline-dark" data-toggle="modal">
+                                   <button type="button" data-content="{{ route('category.add.modal',$category->id) }}" data-target="#myModal" class="btn btn-outline-dark" data-toggle="modal">
                                         Add
                                    </button>
                                    @endif
@@ -84,7 +101,7 @@
           $('.custom-datatable').DataTable({
                processing: true,
                serverSide: true,
-               ajax: "{{ route('category.data','parent') }}",
+               ajax: "{{ route('category.data', $category->id) }}",
                columns: [{
                          data: 'position',
                          name: 'position'

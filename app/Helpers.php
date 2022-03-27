@@ -2,6 +2,7 @@
 
 //check user access permission function start
 
+use App\Models\AppDataModule\Category;
 use App\Models\UserModule\SuperAdmin;
 use App\Models\UserModule\User;
 
@@ -19,28 +20,36 @@ function can($can){
     }
     //check user access permission function end
 
-    //find root parent of user start
+    //find root parent of category start
     function root($id){
-        if( auth('web')->check() ){
-            $count = 0;
-            while( $count != -1 ){
-                $user = User::find($id);
-                if( $user->parent_id == 0 ){
-                    $id = $user->id;
-                    $count = -1;
-                }else{
-                    $id = $user->parent->id;
-                    $count++;
-                }
+        $count = 0;
+        $data = [];
+        $i =0;
+        while( $count != -1 ){
+            $category = Category::find($id);
+            if( $category->category_id == 0 ){
+                $id = $category->id;
+                $count = -1;
+                $i += 1;
+                array_push($data,[
+                    'id' => $i,
+                    'data' => $category 
+                ]);
             }
-            return $user = User::find($id);
+            else{
+                $id = $category->parent->id;
+                $i += 1;
+                array_push($data,[
+                    'id' => $i,
+                    'data' => $category 
+                ]);
+                $count++;
+            }
         }
-        else{
-            return $user = SuperAdmin::find($id);
-        }
+        return $data;
        
     } 
-    //find root parent of user end 
+    //find root parent of category end 
 
 
     //unauthorized text start
