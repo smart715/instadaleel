@@ -96,6 +96,13 @@ class CategoryController extends Controller
                                 Sub Category
                             </a>
                             ': '') .'
+
+                            '.( can("view_category") ? '
+                            <a class="dropdown-item" href="#" data-content="'.route('category.view.modal',encrypt($category->id)).'" data-target="#myModal" class="btn btn-outline-dark" data-toggle="modal">
+                                <i class="fas fa-eye"></i>
+                                View
+                            </a>
+                            ': '') .'
     
                         </div>
                     </div>
@@ -340,5 +347,31 @@ class CategoryController extends Controller
         }
     }
     //edit function end
+
+
+    //view_modal function start
+    public function view_modal($id){
+        try{
+            if( can("view_category") ){
+            
+                $category = Category::where("id", decrypt($id))->with("parent")->first();
+
+                if( $category ){
+                    return view("backend.modules.app_data_module.category.modals.view", compact('category'));
+                }
+                else{
+                    return "No category found";
+                }
+                
+            }
+            else{
+                return unauthorized();
+            }
+        }
+        catch( Exception $e ){
+            return $e->getMessage();
+        }
+    }
+    //view_modal function end
     
 }

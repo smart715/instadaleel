@@ -22,6 +22,8 @@ Route::group(['prefix' => 'category'], function(){
      Route::get("edit-modal/{id}",[CategoryController::class,"edit_modal"])->name("category.edit.modal");
      Route::post("edit/{id}",[CategoryController::class,"edit"])->name("category.edit");
 
+     //view route
+     Route::get("view-modal/{id}",[CategoryController::class,"view_modal"])->name("category.view.modal");
 
 });
 

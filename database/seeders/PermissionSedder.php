@@ -114,6 +114,31 @@ class PermissionSedder extends Seeder
                 'display_name' => '-- View Category',
                 'module_id' => 3,
             ],
+            [
+                'id' => 18,
+                'key' => 'country',
+                'display_name' => 'Country',
+                'module_id' => 3,
+            ],
+            [
+                'id' => 19,
+                'key' => 'add_country',
+                'display_name' => '-- Add Country',
+                'module_id' => 3,
+            ],
+            [
+                'id' => 20,
+                'key' => 'edit_country',
+                'display_name' => '-- Edit Country',
+                'module_id' => 3,
+            ],
+            [
+                'id' => 21,
+                'key' => 'view_country',
+                'display_name' => '-- View Country',
+                'module_id' => 3,
+            ],
         ]);
+
     }
 }

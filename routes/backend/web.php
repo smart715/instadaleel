@@ -46,6 +46,7 @@ Route::group(['prefix' => 'admindashboard', 'middleware' => 'auth'], function ()
     //app data module routes start
     Route::group(['prefix' => 'app-data-module'], function () {
         require_once 'app_data_module/category.php';
+        require_once 'app_data_module/country.php';
     });
     //app data module routes end
 
