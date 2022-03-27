@@ -138,6 +138,18 @@ class PermissionSedder extends Seeder
                 'display_name' => '-- View Country',
                 'module_id' => 3,
             ],
+            [
+                'id' => 22,
+                'key' => 'boxes',
+                'display_name' => 'Boxes',
+                'module_id' => 3,
+            ],
+            [
+                'id' => 23,
+                'key' => 'edit_boxes',
+                'display_name' => '-- Edit Boxes',
+                'module_id' => 3,
+            ],
         ]);
 
     }

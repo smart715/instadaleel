@@ -77,12 +77,20 @@ class SubModuleSeeder extends Seeder
                 'route' => 'country.all',
                 'module_id' => 3,
             ],
+            [
+                'id' => 7,
+                'name' => 'Boxes',
+                'key' => 'boxes',
+                'position' => 3,
+                'route' => 'boxes.all',
+                'module_id' => 3,
+            ],
             //module id 3 end
             
 
         
         ]);
 
-        //last id 6
+        //last id 7
     }
 }
