@@ -18,6 +18,10 @@ Route::group(['prefix' => 'category'], function(){
      //sub category route
      Route::get("get-sub-category/{id}",[CategoryController::class,"get_sub_category"])->name("get.subcategory");
 
+     //edit route
+     Route::get("edit-modal/{id}",[CategoryController::class,"edit_modal"])->name("category.edit.modal");
+     Route::post("edit/{id}",[CategoryController::class,"edit"])->name("category.edit");
+
 
 });
 

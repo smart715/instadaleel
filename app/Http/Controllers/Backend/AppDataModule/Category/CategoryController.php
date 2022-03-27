@@ -83,8 +83,8 @@ class CategoryController extends Controller
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdown'.$category->id.'">
     
-                            '.( can("edit_banner") ? '
-                            <a class="dropdown-item" href="#" data-content="'.route('banner.edit.modal',encrypt($category->id)).'" data-target="#myModal" class="btn btn-outline-dark" data-toggle="modal">
+                            '.( can("edit_category") ? '
+                            <a class="dropdown-item" href="#" data-content="'.route('category.edit.modal',encrypt($category->id)).'" data-target="#myModal" class="btn btn-outline-dark" data-toggle="modal">
                                 <i class="fas fa-edit"></i>
                                 Edit
                             </a>
@@ -231,4 +231,114 @@ class CategoryController extends Controller
         }
     }
     //get_sub_category function end
+
+
+     //edit_modal function start
+     public function edit_modal($id){
+        try{
+            if( can("edit_category") ){
+            
+                $category = Category::where("id", decrypt($id))->with("parent")->first();
+
+                if( $category ){
+                    $parents = Category::where("is_active", true)->where('category_id',null)->select("id","name")->get();
+
+                    return view("backend.modules.app_data_module.category.modals.edit", compact('category','parents'));
+                }
+                else{
+                    return "No category found";
+                }
+                
+            }
+            else{
+                return unauthorized();
+            }
+        }
+        catch( Exception $e ){
+            return $e->getMessage();
+        }
+    }
+    //edit_modal function end
+
+
+    //edit function start
+    public function edit(Request $request,$id){
+        try{
+            if( can("edit_category") ){
+                $id = decrypt($id);
+
+                $validator = Validator::make($request->all(), [
+                    "position" => "required|integer|min:1",
+                    "name" => "required|unique:categories,name,". $id,
+                    // "icon" => "required|mimes:jpg,png,jpeg,webp,svg|dimensions:width=50,height=50",
+                    "icon" => "mimes:jpg,png,jpeg,webp,svg",
+                    "category_id" => "required"
+                ]);
+
+                if( $validator->fails() ){
+                    return response()->json(['errors' => $validator->errors()],422);
+                }
+                else{
+
+                    $category = Category::find($id);
+
+                    if( $category ){
+                        if( $request->category_id == "NoParent" ){
+                            if( Category::where("position", $request->position)->where("category_id", null)->where("id","!=",$category->id)->first() ){
+                                return response()->json(['warning' => 'Position already taken.'],200);
+                            }
+                        }
+                        else{
+                            if( Category::where("position", $request->position)->where("category_id", $request->category_id)->where("id","!=",$category->id)->first() ){
+                                return response()->json(['warning' => 'Position already taken.'],200);
+                            }
+                        }
+                        
+    
+                        $category->position = $request->position;
+                        $category->name = $request->name;
+                        $category->slug = Str::slug($request->name);
+                        $category->is_active = $request->is_active;
+    
+                        if( $request->icon ){
+                            if( File::exists('images/category/'. $category->icon) ){
+                                File::delete('images/category/'. $category->icon);
+                            }
+
+                            $image = $request->file('icon');
+                            $img = time().Str::random(12).'.'.$image->getClientOriginalExtension();
+                            $location = public_path('images/category/'.$img);
+                            Image::make($image)->save($location);
+                            $category->icon = $img;
+                        }
+    
+                        if( $request->category_id == "NoParent" ){
+                            $category->category_id = null;
+                        }
+                        else{
+                            $category->category_id = $request->category_id;
+                        }
+    
+                        if( $category->save() ){
+                            return response()->json(['success' => 'New category created'],200);
+                        }
+                    }
+                    else{
+                        return response()->json(['warning' => 'No category found'],200);
+                    }
+                    
+                    
+
+                }
+            }
+            else{
+                return response()->json(['warning' => unauthorized()],200);
+            }
+        }
+        catch( Exception $e ){
+            return response()->json(['error' => $e->getMessage()],200);
+        }
+    }
+    //edit function end
+    
 }

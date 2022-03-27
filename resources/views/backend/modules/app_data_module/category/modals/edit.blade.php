@@ -1,12 +1,12 @@
 <div class="modal-header">
-     <h5 class="modal-title" id="exampleModalLabel">Add New Category</h5>
+     <h5 class="modal-title" id="exampleModalLabel">{{ $category->name }}</h5>
      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
      </button>
 </div>
 
 <div class="modal-body">
-     <form class="ajax-form" method="post" action="{{ route('category.add') }}">
+     <form class="ajax-form" method="post" action="{{ route('category.edit', encrypt($category->id)) }}">
           @csrf
 
           <div class="row">
@@ -14,13 +14,13 @@
                <!-- Position -->
                <div class="col-md-12 col-12 form-group">
                     <label>Position</label><span class="require-span">*</span>
-                    <input type="number" class="form-control" name="position">
+                    <input type="number" class="form-control" name="position" value="{{ $category->position }}">
                </div>
 
                <!-- Name -->
                <div class="col-md-12 col-12 form-group">
                     <label>Name</label><span class="require-span">*</span>
-                    <input type="text" class="form-control" name="name">
+                    <input type="text" class="form-control" name="name" value="{{ $category->name }}">
                </div>
 
                <!-- Icon -->
@@ -38,6 +38,7 @@
                               <ul></ul>
                          </div>
                          <input type="file" id="input-file-now" class="dropify" name="icon" data-default-file="">
+                         <img src="{{ asset('images/category/'. $category->icon) }}" class="mt-2" width="50px" alt="">
                          <button type="button" class="dropify-clear">Remove</button>
                          <div class="dropify-preview" style="display: none;"><span class="dropify-render"></span>
                               <div class="dropify-infos">
@@ -61,20 +62,33 @@
                     <select name="category_id" class="form-control select2">
 
 
-                         @if( isset($category) )
-                              <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+                         @if( $category->parent )
+                              @foreach( $parents as $parent )
+                              <option value="{{ $parent->id }}" @if( $category->parent->id == $parent->id ) selected @endif >{{ $parent->name }}</option>
+                              @endforeach
                          @else
                               <option value="NoParent" selected>No Parent</option>
                          @endif
 
-                        
+                    </select>
+               </div>
+
+
+               <!-- Select Status -->
+               <div class="col-md-12 col-12 form-group">
+                    <label>Select Status</label><span class="require-span">*</span>
+                    <select class="form-control" name="is_active">
+                         <option value="1" @if( $category->is_active == true ) selected @endif >Active
+                         </option>
+                         <option value="0" @if( $category->is_active == false ) selected @endif >Inactive
+                         </option>
                     </select>
                </div>
 
 
                <div class="col-md-12 form-group text-right">
                     <button type="submit" class="btn btn-outline-dark">
-                         Add
+                         Update
                     </button>
                </div>
 
