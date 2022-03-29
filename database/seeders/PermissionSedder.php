@@ -91,6 +91,12 @@ class PermissionSedder extends Seeder
                 'module_id' => 2,
             ],
             [
+                'id' => 28,
+                'key' => 'app_data_module',
+                'display_name' => 'App Datas',
+                'module_id' => 3,
+            ],
+            [
                 'id' => 13,
                 'key' => 'all_category',
                 'display_name' => 'All Category',
@@ -148,6 +154,30 @@ class PermissionSedder extends Seeder
                 'id' => 23,
                 'key' => 'edit_boxes',
                 'display_name' => '-- Edit Boxes',
+                'module_id' => 3,
+            ],
+            [
+                'id' => 24,
+                'key' => 'city',
+                'display_name' => 'City',
+                'module_id' => 3,
+            ],
+            [
+                'id' => 25,
+                'key' => 'add_city',
+                'display_name' => '-- Add City',
+                'module_id' => 3,
+            ],
+            [
+                'id' => 26,
+                'key' => 'edit_city',
+                'display_name' => '-- Edit City',
+                'module_id' => 3,
+            ],
+            [
+                'id' => 27,
+                'key' => 'view_city',
+                'display_name' => '-- View City',
                 'module_id' => 3,
             ],
         ]);

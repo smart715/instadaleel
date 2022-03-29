@@ -17,7 +17,7 @@ class CreateLocationsTable extends Migration
             $table->id();
 
             $table->string("name")->unique();
-            $table->string("image");
+            $table->string("image")->nullable();
             $table->unsignedBigInteger("location_id")->nullable();
             $table->enum("type",['Country','City']);
             $table->boolean('is_active')->default(false);

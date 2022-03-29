@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Location extends Model
 {
     use HasFactory;
+
+    public function parent(){
+        return $this->belongsTo(Location::class,"location_id","id");
+    }
+
 }

@@ -79,9 +79,17 @@ class SubModuleSeeder extends Seeder
             ],
             [
                 'id' => 7,
+                'name' => 'City',
+                'key' => 'city',
+                'position' => 3,
+                'route' => 'city.all',
+                'module_id' => 3,
+            ],
+            [
+                'id' => 8,
                 'name' => 'Boxes',
                 'key' => 'boxes',
-                'position' => 3,
+                'position' => 4,
                 'route' => 'boxes.all',
                 'module_id' => 3,
             ],
