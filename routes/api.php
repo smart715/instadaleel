@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BannerController;
+use App\Http\Controllers\Api\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -41,3 +42,8 @@ Route::group(['prefix' => 'auth'], function () {
 
 //banner
 Route::get("get-banners",[ApiController::class,"get_banner"]);
+
+
+//add post
+Route::post("add-post",[PostController::class,"add_post"]);
+

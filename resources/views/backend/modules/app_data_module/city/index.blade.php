@@ -50,8 +50,8 @@
                                              <tr>
                                                   <th>ID</th>
                                                   <th>Country Image</th>
-                                                  <th>Name</th>
-                                                  <th>Country</th>
+                                                  <th>City Name</th>
+                                                  <th>Country Name</th>
                                                   <th>Status</th>
                                                   <th>Action</th>
                                              </tr>
