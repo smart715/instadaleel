@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CommunityModule\Post\PostResourceCollection;
 use App\Models\CommunityModule\Post;
 use Exception;
 use Illuminate\Http\Request;
@@ -32,10 +33,10 @@ class PostController extends Controller
 
                 $post->customer_id = $request->customer_id;
                 $post->description = $request->description;
-                $post->is_approved = false;
-                $post->is_shown = false;
-                $post->total_like = false;
-                $post->total_comment = false;
+                $post->is_approved = true;
+                $post->is_shown = true;
+                $post->total_like = 0;
+                $post->total_comment = 0;
 
                 //image insert start
                 $data = [];
@@ -73,4 +74,44 @@ class PostController extends Controller
         }
     }
     //add_post function end
+
+
+    //get_post function start
+    public function get_post(Request $request){
+        try{
+            $validator = Validator::make($request->all(), [
+                "customer_id" => "required|integer|exists:customers,id",
+            ]);
+
+            if( $validator->fails() ){
+                return response()->json([
+                    'status' => 'error',
+                    'data' =>$validator->errors()
+                ],200);
+            }
+            else{
+                
+                $post = Post::where("customer_id", $request->customer_id)
+                                    ->where("is_approved", true)
+                                    ->where("is_shown", true)
+                                    ->select("customer_id","image","description","total_like","total_comment","id")
+                                    ->orderBy("id","desc")
+                                    ->get();
+
+                return response()->json([
+                    'status' => 'success',
+                    'data' => new PostResourceCollection($post)
+                ],200);
+
+            }
+
+        }
+        catch( Exception $e ){
+            return response()->json([
+                'status' => 'error',
+                'data' => $e->getMessage()
+            ],200);
+        }
+    }
+    //get_post function end
 }

@@ -43,7 +43,10 @@ Route::group(['prefix' => 'auth'], function () {
 //banner
 Route::get("get-banners",[ApiController::class,"get_banner"]);
 
-
 //add post
 Route::post("add-post",[PostController::class,"add_post"]);
+
+
+//get post
+Route::get("get-post",[PostController::class,"get_post"]);
 
