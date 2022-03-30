@@ -46,7 +46,13 @@ Route::get("get-banners",[ApiController::class,"get_banner"]);
 //add post
 Route::post("add-post",[PostController::class,"add_post"]);
 
-
 //get post
 Route::get("get-post",[PostController::class,"get_post"]);
 
+
+//post like
+Route::post("post-like",[PostController::class,"post_like"]);
+
+
+//post comment
+Route::post("post-comment",[PostController::class,"post_comment"]);

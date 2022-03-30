@@ -21,7 +21,7 @@ class PostResource extends JsonResource
                 'image' => asset('images/customer/'.$this->customer->image),
             ],
             'description' => $this->description,
-            'image' => unserialize($this->image),
+            'images' => $this->image ? unserialize($this->image) : null,
             'total_like' => $this->total_like,
             'total_comment' => $this->total_comment,
         ];
