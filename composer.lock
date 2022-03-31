@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "35e5a3173afbdb6133d293f5f92cde4d",
+    "content-hash": "c3716641531d93d7fc85ddf390de9e86",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3758,6 +3758,65 @@
                 }
             ],
             "time": "2021-09-25T23:10:38+00:00"
+        },
+        {
+            "name": "smsglobal/smsglobal-php",
+            "version": "v1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/smsglobal/smsglobal-php.git",
+                "reference": "c3eac176592a6e420f8dd42cad02103a9d45aa83"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/smsglobal/smsglobal-php/zipball/c3eac176592a6e420f8dd42cad02103a9d45aa83",
+                "reference": "c3eac176592a6e420f8dd42cad02103a9d45aa83",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.2",
+                "php": ">=7.3"
+            },
+            "require-dev": {
+                "php-http/guzzle7-adapter": "^0.1.1",
+                "phpunit/phpunit": ">=8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SMSGlobal\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sahil Saggar"
+                },
+                {
+                    "name": "SMSGlobal Dev Team",
+                    "email": "developers@smsglobal.com"
+                }
+            ],
+            "description": "SMSGlobal PHP Client Library",
+            "homepage": "https://www.smsglobal.com/developers/?utm_source=dev&utm_medium=packagist&utm_campaign=php_sdk",
+            "keywords": [
+                "api",
+                "library",
+                "php",
+                "rest",
+                "restapi",
+                "sdk",
+                "sms",
+                "smsglobal"
+            ],
+            "support": {
+                "issues": "https://github.com/smsglobal/smsglobal-php/issues",
+                "source": "https://github.com/smsglobal/smsglobal-php/tree/v1.3.0"
+            },
+            "time": "2021-06-21T07:30:21+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
