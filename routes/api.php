@@ -46,13 +46,23 @@ Route::get("get-banners",[ApiController::class,"get_banner"]);
 //add post
 Route::post("add-post",[PostController::class,"add_post"]);
 
+//delete post image
+Route::post("delete-post-image",[PostController::class,"delete_post_image"]);
+
+//update post
+Route::post("update-post",[PostController::class,"update_post"]);
+
+//delete post
+Route::post("delete-post",[PostController::class,"delete_post"]);
+
 //get post
 Route::get("get-post",[PostController::class,"get_post"]);
-
 
 //post like
 Route::post("post-like",[PostController::class,"post_like"]);
 
-
 //post comment
 Route::post("post-comment",[PostController::class,"post_comment"]);
+
+//comment link
+Route::post("comment-like",[PostController::class,"comment_like"]);

@@ -16,14 +16,15 @@ class PostResource extends JsonResource
     {
         return[
             'id' => $this->id,
-            'customer' => [
+            'customer_data' => [
                 'name' => $this->customer->name,
-                'image' => asset('images/customer/'.$this->customer->image),
+                'image' => $this->customer->image,
             ],
             'description' => $this->description,
-            'images' => $this->image ? unserialize($this->image) : null,
+            'images' => $this->image ? $this->image : null,
             'total_like' => $this->total_like,
             'total_comment' => $this->total_comment,
+            "customer_id" => $this->customer->id,
         ];
     }
 }
