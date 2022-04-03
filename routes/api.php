@@ -44,6 +44,9 @@ Route::group(['middleware' => 'user_active'], function () {
 	//banner
 	Route::get("get-banners",[ApiController::class,"get_banner"]);
 
+	//get event
+	Route::get("get-event",[ApiController::class,"get_event"]);
+
 	//add post
 	Route::post("add-post",[PostController::class,"add_post"]);
 

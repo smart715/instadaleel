@@ -101,12 +101,20 @@ class SubModuleSeeder extends Seeder
                 'route' => 'event.all',
                 'module_id' => 3,
             ],
+            [
+                'id' => 10,
+                'name' => 'All Package',
+                'key' => 'all_package',
+                'position' => 6,
+                'route' => 'package.all',
+                'module_id' => 3,
+            ],
             //module id 3 end
             
 
         
         ]);
 
-        //last id 7
+        //last id 10
     }
 }

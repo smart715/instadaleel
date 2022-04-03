@@ -21,7 +21,7 @@
                               </li>
                               <li class="breadcrumb-item active">
                                    <a href="#">
-                                        All Event
+                                        All Package
                                    </a>
                               </li>
                          </ol>
@@ -39,7 +39,7 @@
                          <div class="card card-primary card-outline table-responsive">
                               <div class="card-header text-right">
                                    @if( can('add_event') )
-                                   <button type="button" data-content="{{ route('event.add.modal') }}" data-target="#largeModal" class="btn btn-outline-dark" data-toggle="modal">
+                                   <button type="button" data-content="{{ route('package.add.modal') }}" data-target="#myModal" class="btn btn-outline-dark" data-toggle="modal">
                                         Add
                                    </button>
                                    @endif
@@ -48,10 +48,9 @@
                                    <table class="table table-bordered table-striped dataTable dtr-inline custom-datatable" id="datatable">
                                         <thead>
                                              <tr>
-                                                  <th>Position</th>
-                                                  <th>Image</th>
+                                                  <th>ID</th>
                                                   <th>Title</th>
-                                                  <th>Date & Time</th>
+                                                  <th>Duration Days</th>
                                                   <th>Status</th>
                                                   <th>Action</th>
                                              </tr>
@@ -84,22 +83,18 @@
           $('.custom-datatable').DataTable({
                processing: true,
                serverSide: true,
-               ajax: "{{ route('event.data') }}",
+               ajax: "{{ route('package.data') }}",
                columns: [{
-                         data: 'position',
-                         name: 'position'
-                    },
-                    {
-                         data: 'image',
-                         name: 'image'
+                         data: 'DT_RowIndex',
+                         name: 'DT_RowIndex'
                     },
                     {
                          data: 'title',
                          name: 'title'
                     },
                     {
-                         data: 'date_time',
-                         name: 'date_time'
+                         data: 'duration_days',
+                         name: 'duration_days'
                     },
                     {
                          data: 'is_active',

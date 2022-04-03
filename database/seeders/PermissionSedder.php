@@ -210,6 +210,30 @@ class PermissionSedder extends Seeder
                 'display_name' => '-- View Event',
                 'module_id' => 3,
             ],
+            [
+                'id' => 34,
+                'key' => 'all_package',
+                'display_name' => 'All Package',
+                'module_id' => 3,
+            ],
+            [
+                'id' => 35,
+                'key' => 'add_package',
+                'display_name' => '-- Add Package',
+                'module_id' => 3,
+            ],
+            [
+                'id' => 36,
+                'key' => 'edit_package',
+                'display_name' => '-- Edit Package',
+                'module_id' => 3,
+            ],
+            [
+                'id' => 37,
+                'key' => 'view_package',
+                'display_name' => '-- View Package',
+                'module_id' => 3,
+            ],
         ]);
 
     }

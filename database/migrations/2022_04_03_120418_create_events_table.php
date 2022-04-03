@@ -23,8 +23,8 @@ class CreateEventsTable extends Migration
             $table->unsignedBigInteger("location_id");
             $table->string("event_location");
             $table->string("event_organizer_location");
-            $table->dateTime("date_time");
-            $table->boolean("is_approved")->default(false);
+            $table->date("date");
+            $table->time("time");
             $table->boolean("is_active")->default(false);
             $table->string("address");
 

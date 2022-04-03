@@ -50,6 +50,7 @@ Route::group(['prefix' => 'admindashboard', 'middleware' => 'auth'], function ()
         require_once 'app_data_module/box.php';
         require_once 'app_data_module/city.php';
         require_once 'app_data_module/event.php';
+        require_once 'app_data_module/package.php';
     });
     //app data module routes end
 

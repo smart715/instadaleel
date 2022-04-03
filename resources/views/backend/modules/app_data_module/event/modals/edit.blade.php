@@ -1,12 +1,12 @@
 <div class="modal-header">
-     <h5 class="modal-title" id="exampleModalLabel">Add New Event</h5>
+     <h5 class="modal-title" id="exampleModalLabel">{{ $event->title }}</h5>
      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
      </button>
 </div>
 
 <div class="modal-body">
-     <form class="ajax-form" method="post" action="{{ route('event.add') }}">
+     <form class="ajax-form" method="post" action="{{ route('event.edit',encrypt($event->id)) }}">
           @csrf
 
           <div class="row">
@@ -14,19 +14,21 @@
                <!-- Position -->
                <div class="col-md-6 col-12 form-group">
                     <label>Position</label><span class="require-span">*</span>
-                    <input type="number" min="1" class="form-control" name="position">
+                    <input type="number" min="1" class="form-control" name="position" value="{{ $event->position }}">
                </div>
 
                <!-- Title -->
                <div class="col-md-6 col-12 form-group">
                     <label>Title</label><span class="require-span">*</span>
-                    <input type="text" class="form-control" name="title">
+                    <input type="text" class="form-control" name="title" value="{{ $event->title }}">
                </div>
 
                <!-- Description -->
                <div class="col-md-12 form-group">
                     <label>Description</label>
-                    <textarea name="description" rows="3" id="description" class="form-control"></textarea>
+                    <textarea name="description" rows="3" id="description" class="form-control">
+                         {!! $event->description !!}
+                    </textarea>
                </div>
 
                <!-- Image -->
@@ -46,6 +48,7 @@
                               <ul></ul>
                          </div>
                          <input type="file" id="input-file-now" class="dropify" name="image" data-default-file="">
+                         <img src="{{ asset('images/event/'. $event->image) }}" width="100px" alt="">
                          <button type="button" class="dropify-clear">Remove</button>
                          <div class="dropify-preview" style="display: none;"><span class="dropify-render"></span>
                               <div class="dropify-infos">
@@ -68,7 +71,7 @@
                     <label>Location</label><span class="require-span">*</span>
                     <select name="location_id" class="chosen">
                          @foreach( $locations as $location )
-                              <option value="{{ $location->id }}">{{ $location->name }}</option>
+                              <option value="{{ $location->id }}" @if( $event->location_id == $location->id ) selected @endif >{{ $location->name }}</option>
                          @endforeach
                     </select>
                </div>
@@ -76,36 +79,47 @@
                <!-- Event Location -->
                <div class="col-md-6 col-12 form-group">
                     <label>Event Location</label><span class="require-span">*</span>
-                    <input type="text" class="form-control" name="event_location">
+                    <input type="text" class="form-control" name="event_location" value="{{ $event->event_location }}">
                </div>
 
                <!-- Event Organizer Location -->
                <div class="col-md-6 col-12 form-group">
                     <label>Event Organizer Location</label><span class="require-span">*</span>
-                    <input type="text" class="form-control" name="event_organizer_location">
+                    <input type="text" class="form-control" name="event_organizer_location" value="{{ $event->event_organizer_location }}">
                </div>
 
                <!-- Address -->
                <div class="col-md-6 col-12 form-group">
                     <label>Address</label><span class="require-span">*</span>
-                    <input type="text" class="form-control" name="address">
+                    <input type="text" class="form-control" name="address" value="{{ $event->address }}">
                </div>
 
                <!-- Date -->
                <div class="col-md-6 col-12 form-group">
                     <label>Date</label><span class="require-span">*</span>
-                    <input type="date"  class="form-control" name="date">
+                    <input type="date"  class="form-control" name="date" value="{{ $event->date }}">
                </div>
 
                <!-- Time -->
                <div class="col-md-6 col-12 form-group">
                     <label>Time</label><span class="require-span">*</span>
-                    <input type="time"  class="form-control" name="time">
+                    <input type="time"  class="form-control" name="time" value="{{ $event->time }}">
+               </div>
+
+               <!-- Select Status -->
+               <div class="col-md-12 col-12 form-group">
+                    <label>Select Status</label><span class="require-span">*</span>
+                    <select class="form-control" name="is_active">
+                         <option value="1" @if( $event->is_active == true ) selected @endif >Active
+                         </option>
+                         <option value="0" @if( $event->is_active == false ) selected @endif >Inactive
+                         </option>
+                    </select>
                </div>
 
                <div class="col-md-12 form-group text-right">
                     <button type="submit" class="btn btn-outline-dark">
-                         Add
+                         Update
                     </button>
                </div>
 
