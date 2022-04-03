@@ -180,6 +180,36 @@ class PermissionSedder extends Seeder
                 'display_name' => '-- View City',
                 'module_id' => 3,
             ],
+            [
+                'id' => 29,
+                'key' => 'all_event',
+                'display_name' => 'All Event',
+                'module_id' => 3,
+            ],
+            [
+                'id' => 30,
+                'key' => 'add_event',
+                'display_name' => '-- Add Event',
+                'module_id' => 3,
+            ],
+            [
+                'id' => 31,
+                'key' => 'edit_event',
+                'display_name' => '-- Edit Event',
+                'module_id' => 3,
+            ],
+            [
+                'id' => 32,
+                'key' => 'delete_event',
+                'display_name' => '-- Delete Event',
+                'module_id' => 3,
+            ],
+            [
+                'id' => 33,
+                'key' => 'view_event',
+                'display_name' => '-- View Event',
+                'module_id' => 3,
+            ],
         ]);
 
     }

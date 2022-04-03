@@ -126,3 +126,12 @@ div.dataTables_wrapper div.dataTables_processing {
     min-width: 100%!important;
     max-width: 100%!important;
 }
+.chosen-container.chosen-container-single{
+    width: 100%!important;
+}
+.chosen-container-single .chosen-single{
+    background: white!important;
+    border-radius: 0!important;
+    padding: 7px 10px!important;
+    height: 38px!important;
+}

@@ -93,6 +93,14 @@ class SubModuleSeeder extends Seeder
                 'route' => 'boxes.all',
                 'module_id' => 3,
             ],
+            [
+                'id' => 9,
+                'name' => 'All Event',
+                'key' => 'all_event',
+                'position' => 5,
+                'route' => 'event.all',
+                'module_id' => 3,
+            ],
             //module id 3 end
             
 
