@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Banner\BannerResourceCollection;
 use App\Models\AppDataModule\Event;
+use App\Models\AppDataModule\Package;
 use App\Models\SettingsModule\Banner;
 use Exception;
 use Illuminate\Http\Request;
@@ -55,5 +56,29 @@ class ApiController extends Controller
         }
     }
     //get_event function end
+
+
+    //get_package function start
+    public function get_package(){
+        try{
+
+            $package = Package::where("is_active", true)
+                            ->select("id","title","duration_days")
+                            ->get();
+
+            return response()->json([
+                'status' => 'success',
+                'data' => $package
+            ],200);
+            
+        }
+        catch( Exception $e ){
+            return response()->json([
+                'status' => 'error',
+                'data' => $e->getMessage()
+            ],200);
+        }
+    }
+    //get_package function end
 
 }

@@ -6,13 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\CustomerModule\CustomerResource;
 use App\Models\CustomerModule\Customer;
 use App\Models\CustomerModule\Verify;
-use App\Models\SettingsModule\AppInfo;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -303,6 +305,197 @@ class AuthController extends Controller
         }
     }
     //verify  function end
+
+
+    //reset_password function start
+    public function reset_password(Request $request){
+        try{
+            $validator = Validator::make($request->all(),[
+                "password" => "required|min:8|confirmed",
+                "phone" => "required|exists:customers,phone",
+            ]);
+
+            if( $validator->fails() ){
+                return response()->json([
+                    'status' => 'error',
+                    'data' => $validator->errors()
+                ],200);
+            }
+            else{
+                $customer = Customer::where("phone", $request->phone)->first();
+
+                $customer->password = Hash::make($request->password);
+
+                if( $customer->save() ){
+                    return response()->json([
+                        'status' => 'success',
+                        'data' => 'Password reset successfully done'
+                    ],200);
+                }
+            }
+        }
+        catch( Exception $e ){
+            return response()->json([
+                'status' => 'error',
+                'data' => $e->getMessage()
+            ],200);
+        }
+    }
+    //reset_password function end
+
+
+    //change_password function start
+    public function change_password(Request $request){
+        try{
+            $customer = Customer::find($request->customer_id);
+
+            if( $customer ){
+                $validator = Validator::make($request->all(),[
+                    "old_password" => "required",
+                    "password" => "required|min:6|confirmed",
+                ]);
+    
+                if( $validator->fails() ){
+                    return response()->json([
+                        'status' => 'error',
+                        'data' => $validator->errors()
+                    ],200);
+                }
+                else{
+                    
+                    if( Hash::check($request->old_password,$customer->password) ){
+                        $customer->password = Hash::make($request->password);
+
+                        if( $customer->save() ){
+                            return response()->json([
+                                'status' => 'success',
+                                'data' => 'Password Updated'
+                            ],200);
+                        }
+                    }
+                    else{
+                        return response()->json([
+                            'status' => 'error',
+                            'data' => 'Old password not matched'
+                        ],200);
+                    }
+
+                }
+            }
+            else{
+                return response()->json([
+                    'status' => 'error',
+                    'data' => 'Invalid customer'
+                ],200);
+            }
+            
+        }
+        catch( Exception $e ){
+            return response()->json([
+                'status' => 'error',
+                'data' => $e->getMessage()
+            ],200);
+        }
+    }
+    //change_password function end
+
+
+    //manage_session function start
+    public function manage_session(Request $request){
+        try{
+            
+            if( auth('api')->check() ){
+                $customer = Customer::where("id", auth('api')->user()->id)->first();
+
+                return response()->json([
+                    'status' => 'success',
+                    'data' => new CustomerResource($customer)
+                ],200);
+            }
+            else{
+                return response()->json([
+                    'status' => 'error',
+                    'data' => 'Token expire. Please login again'
+                ],200);
+            }
+
+        }
+        catch( Exception $e ){
+            return response()->json([
+                'status' => 'error',
+                'data' => $e->getMessage()
+            ],200);
+        }
+    }
+    //manage_session function end
+
+
+    //update_profile function start
+    public function update_profile(Request $request){
+        try{
+            $customer = Customer::find($request->customer_id);
+
+            if( $customer ){
+                $validator = Validator::make($request->all(),[
+                    "name" => "required",
+                    "email" => "required|unique:customers,email,".$customer->id,
+                    "address" => "required",
+                ]);
+    
+                if( $validator->fails() ){
+                    return response()->json([
+                        'status' => 'error',
+                        'data' => $validator->errors()
+                    ],200);
+                }
+                else{
+                    $customer->name = $request->name;
+                    $customer->email = $request->email;
+                    $customer->address = $request->address;
+                    $customer->gender = $request->gender;
+                    $customer->about = $request->about;
+                    $customer->occupation = $request->occupation;
+                    $customer->latitude = $request->latitude;
+                    $customer->longitude = $request->longitude;
+
+                    // image upload 
+                    if( $request->image ){
+                        if( File::exists('images/customer/'. $customer->image) ){
+                            File::delete('images/customer/'. $customer->image);
+                        }
+                        $image = $request->file('image');
+                        $img = Str::slug($request->name) . time().Str::random(12).'.'.$image->getClientOriginalExtension();
+                        $location = public_path('images/customer/'.$img);
+                        Image::make($image)->save($location);
+                        $customer->image = $img;
+                    }
+
+                    if( $customer->save() ){
+                        return response()->json([
+                            'status' => 'success',
+                            'data' => new CustomerResource($customer)
+                        ],200);
+                    }
+
+                }
+            }
+            else{
+                return response()->json([
+                    'status' => 'error',
+                    'data' => 'Invalid customer'
+                ],200);
+            }
+            
+        }
+        catch( Exception $e ){
+            return response()->json([
+                'status' => 'error',
+                'data' => $e->getMessage()
+            ],200);
+        }
+    }
+    //update_profile function end
+
 
 
     //refresh function 

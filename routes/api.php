@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BannerController;
+use App\Http\Controllers\Api\BusinessController;
 use App\Http\Controllers\Api\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -32,14 +33,23 @@ Route::group(['prefix' => 'auth'], function () {
 	Route::post('login', [AuthController::class, 'login']);
 	Route::post('logout', [AuthController::class, 'logout']);
 	Route::post('refresh', [AuthController::class, 'refresh']);
-	Route::post('profile', [AuthController::class, 'profile']);
 
 	//forget password
 	Route::post("reset-password",[AuthController::class,"reset_password"]);
 
 });
 
+
 Route::group(['middleware' => 'user_active'], function () {
+
+	//profile update
+	Route::post('update-profile', [AuthController::class, 'update_profile']);
+
+	//change password
+	Route::post('change-password', [AuthController::class, 'change_password']);
+
+	//manage session
+	Route::post('manage-session', [AuthController::class, 'manage_session']);
 
 	//banner
 	Route::get("get-banners",[ApiController::class,"get_banner"]);
@@ -70,5 +80,11 @@ Route::group(['middleware' => 'user_active'], function () {
 
 	//comment link
 	Route::post("comment-like",[PostController::class,"comment_like"]);
+
+	//get package
+	Route::get("get-package",[ApiController::class,"get_package"]);
+
+	//add business
+	Route::get("add-business",[BusinessController::class,"add_business"]);
 
 });
