@@ -85,6 +85,6 @@ Route::group(['middleware' => 'user_active'], function () {
 	Route::get("get-package",[ApiController::class,"get_package"]);
 
 	//add business
-	Route::get("add-business",[BusinessController::class,"add_business"]);
+	Route::post("add-business",[BusinessController::class,"add_business"]);
 
 });
