@@ -63,7 +63,7 @@ class ApiController extends Controller
         try{
 
             $package = Package::where("is_active", true)
-                            ->select("id","title","duration_days")
+                            ->select("id","title","price","duration_days")
                             ->get();
 
             return response()->json([

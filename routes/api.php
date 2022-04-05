@@ -87,4 +87,7 @@ Route::group(['middleware' => 'user_active'], function () {
 	//add business
 	Route::post("add-business",[BusinessController::class,"add_business"]);
 
+	//get all business
+	Route::get("get-all-business",[BusinessController::class,"get_all_business"]);
+
 });

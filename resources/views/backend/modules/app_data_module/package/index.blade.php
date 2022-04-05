@@ -51,6 +51,7 @@
                                                   <th>ID</th>
                                                   <th>Title</th>
                                                   <th>Duration Days</th>
+                                                  <th>Price</th>
                                                   <th>Status</th>
                                                   <th>Action</th>
                                              </tr>
@@ -95,6 +96,10 @@
                     {
                          data: 'duration_days',
                          name: 'duration_days'
+                    },
+                    {
+                         data: 'price',
+                         name: 'price'
                     },
                     {
                          data: 'is_active',

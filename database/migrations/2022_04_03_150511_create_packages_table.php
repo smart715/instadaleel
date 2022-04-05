@@ -18,6 +18,7 @@ class CreatePackagesTable extends Migration
 
             $table->string("title");
             $table->integer("duration_days");
+            $table->integer("price");
             $table->boolean("is_active");
 
             $table->timestamps();

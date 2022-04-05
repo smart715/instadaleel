@@ -22,9 +22,15 @@
                     <label>Duration Days</label><span class="require-span">*</span>
                     <input type="number" min="1" class="form-control" name="duration_days" value="{{ $package->duration_days }}">
                </div>
+
+               <!-- Price -->
+               <div class="col-md-6 col-12 form-group">
+                    <label>Price</label><span class="require-span">*</span>
+                    <input type="number" min="1" class="form-control" name="price" value="{{ $package->price }}">
+               </div>
                
                <!-- Select Status -->
-               <div class="col-md-12 col-12 form-group">
+               <div class="col-md-6 col-12 form-group">
                     <label>Select Status</label><span class="require-span">*</span>
                     <select class="form-control" name="is_active">
                          <option value="1" @if( $package->is_active == true ) selected @endif >Active

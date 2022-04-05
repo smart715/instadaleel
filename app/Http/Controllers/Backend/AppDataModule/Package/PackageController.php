@@ -34,7 +34,7 @@ class PackageController extends Controller
         try{
             if( can('all_package') ){
                 
-                $package = Package::select("id","title","duration_days","is_active")->get();
+                $package = Package::select("id","title","duration_days","price","is_active")->get();
     
                 return DataTables::of($package)
 
@@ -42,6 +42,10 @@ class PackageController extends Controller
 
                 ->editColumn('duration_days', function (Package $package) {
                     return $package->duration_days .' Days';
+                })
+
+                ->editColumn('price', function (Package $package) {
+                    return $package->price .' AED';
                 })
 
                 ->editColumn('is_active', function (Package $package) {
@@ -108,6 +112,7 @@ class PackageController extends Controller
                 $validator = Validator::make($request->all(),[
                     "title" => "required|unique:packages,title",
                     "duration_days" => "required|integer",
+                    "price" => "required|integer",
                 ]);
 
                 if( $validator->fails() ){
@@ -120,6 +125,7 @@ class PackageController extends Controller
 
                     $package->title = $request->title;
                     $package->duration_days = $request->duration_days;
+                    $package->price = $request->price;
                     $package->is_active = true;
 
                     if( $package->save() ){
@@ -182,6 +188,7 @@ class PackageController extends Controller
                 $validator = Validator::make($request->all(),[
                     "title" => "required|unique:packages,title,". $id,
                     "duration_days" => "required|integer",
+                    "price" => "required|integer",
                 ]);
 
                 if( $validator->fails() ){
@@ -194,6 +201,7 @@ class PackageController extends Controller
 
                     $package->title = $request->title;
                     $package->duration_days = $request->duration_days;
+                    $package->price = $request->price;
                     $package->is_active = $request->is_active;
 
                     if( $package->save() ){

@@ -23,6 +23,11 @@
                     <input type="number" min="1" class="form-control" name="duration_days">
                </div>
                
+               <!-- Price -->
+               <div class="col-md-6 col-12 form-group">
+                    <label>Price</label><span class="require-span">*</span>
+                    <input type="number" min="1" class="form-control" name="price">
+               </div>
 
                <div class="col-md-12 form-group text-right">
                     <button type="submit" class="btn btn-outline-dark">

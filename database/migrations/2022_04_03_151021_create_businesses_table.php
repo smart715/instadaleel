@@ -19,23 +19,29 @@ class CreateBusinessesTable extends Migration
             $table->unsignedBigInteger("customer_id");
             $table->unsignedBigInteger("location_id");
             $table->unsignedBigInteger("category_id");
-            $table->unsignedBigInteger("package_id");
 
+            $table->string("code")->unique();
             $table->string("name");
             $table->string("email");
             $table->string("image");
             $table->string("address");
             $table->string("contact_number");
             $table->text("short_description");
-            $table->float("rating");
+            $table->float("rating")->default(0);
             $table->text("social_links")->nullable();
             $table->string("website_link");
             $table->string("office_hour");
 
+            $table->boolean("is_active")->default(false);
+            $table->boolean("is_pinned")->default(false);
+            $table->enum('status',['Expired','Running']);
+
+            $table->integer("month");
+            $table->integer("year");
+
             $table->foreign("customer_id")->references("id")->on("customers")->onDelete("cascade");
             $table->foreign("location_id")->references("id")->on("locations")->onDelete("cascade");
             $table->foreign("category_id")->references("id")->on("categories")->onDelete("cascade");
-            $table->foreign("package_id")->references("id")->on("packages")->onDelete("cascade");
 
             $table->timestamps();
         });
