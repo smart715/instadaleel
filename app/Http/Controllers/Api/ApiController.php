@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Banner\BannerResourceCollection;
+use App\Models\AppDataModule\Category;
 use App\Models\AppDataModule\Event;
 use App\Models\AppDataModule\Package;
 use App\Models\SettingsModule\Banner;
@@ -32,6 +33,59 @@ class ApiController extends Controller
         }
     } 
     //get_banner function end
+
+
+    //get_categories function start
+    public function get_categories($number){
+        try{
+            
+            $query = Category::where("is_active", true)->where("category_id", null)->orderBy("position","asc")->select("id","name","icon");
+            if( $number == "All" ){
+                $categories = $query->get();
+            }
+            else{
+                $categories = $query->take($number)->get();
+            }
+
+            return response()->json([
+                'status' => 'success',
+                'data' => $categories
+            ],200);
+            
+        }
+        catch( Exception $e ){
+            return response()->json([
+                'status' => 'error',
+                'data' => $e->getMessage()
+            ],200);
+        }
+    }
+    //get_categories function end
+
+
+    //get_sub_categories function start
+    public function get_sub_categories($id){
+        try{
+            
+            $categories = Category::where("is_active", true)->orderBy("position","asc")
+                                    ->where("category_id",$id)
+                                    ->select("id","name","icon","category_id")
+                                    ->get();
+
+            return response()->json([
+                'status' => 'success',
+                'data' => $categories
+            ],200);
+            
+        }
+        catch( Exception $e ){
+            return response()->json([
+                'status' => 'error',
+                'data' => $e->getMessage()
+            ],200);
+        }
+    }
+    //get_sub_categories function end
 
 
     //get_event function start

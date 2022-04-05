@@ -144,6 +144,7 @@ class BusinessController extends Controller
             else{
                 $business = Business::where("is_active", true)->where("status","Running")
                             ->select("id","name","image","rating","short_description")
+                            ->orderBy("id","desc")
                             ->paginate(10);
                 
                 return response()->json([

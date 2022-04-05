@@ -54,6 +54,12 @@ Route::group(['middleware' => 'user_active'], function () {
 	//banner
 	Route::get("get-banners",[ApiController::class,"get_banner"]);
 
+	//get category
+	Route::get("get-categories/{number}",[ApiController::class,"get_categories"]);
+
+	//get sub category
+	Route::get("get-sub-categories/{id}",[ApiController::class,"get_sub_categories"]);
+
 	//get event
 	Route::get("get-event",[ApiController::class,"get_event"]);
 
@@ -89,5 +95,6 @@ Route::group(['middleware' => 'user_active'], function () {
 
 	//get all business
 	Route::get("get-all-business",[BusinessController::class,"get_all_business"]);
+
 
 });
