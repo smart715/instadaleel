@@ -165,6 +165,7 @@ class BusinessController extends Controller
 
     //business_details function start
     public function business_details(Request $request){
+
         try{
             $validator = Validator::make($request->all(),[
                 "business_id" => "required|integer|exists:businesses,id",
