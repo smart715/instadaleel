@@ -96,5 +96,7 @@ Route::group(['middleware' => 'user_active'], function () {
 	//get all business
 	Route::get("get-all-business",[BusinessController::class,"get_all_business"]);
 
+	//business details
+	Route::get("business-details",[BusinessController::class,"business_details"]);
 
 });

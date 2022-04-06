@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\AppDataModule\Business\BusinessResource;
 use App\Models\AppDataModule\Business;
 use App\Models\AppDataModule\BusinessPackage;
 use App\Models\AppDataModule\Package;
@@ -42,7 +43,6 @@ class BusinessController extends Controller
                 ],200);
             }
             else{
-                return $request;
                 $business = new Business();
 
                 $business->customer_id = $request->customer_id;
@@ -161,4 +161,40 @@ class BusinessController extends Controller
         }
     }
     //get_all_business function end
+
+
+    //business_details function start
+    public function business_details(Request $request){
+        try{
+            $validator = Validator::make($request->all(),[
+                "business_id" => "required|integer|exists:businesses,id",
+            ]);       
+
+            if( $validator->fails() ){
+                return response()->json([
+                    'status' => 'error',
+                    'data' => $validator->errors()
+                ],200);
+            }
+            else{
+                $business = Business::where("id", $request->business_id)
+                ->select("id","location_id","category_id","name","email","image","address","contact_number","short_description","rating","social_links","website_link","office_hour")
+                ->first();
+
+                return response()->json([
+                    'status' => 'success',
+                    'data' => new BusinessResource($business)
+                ],200);
+
+            }
+
+        }
+        catch( Exception $e ){
+            return response()->json([
+                'status' => 'error',
+                'data' => $e->getMessage()
+            ],200);
+        }
+    }
+    //business_details function end
 }
