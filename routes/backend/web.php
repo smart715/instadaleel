@@ -27,8 +27,12 @@ Route::post('/do-logout', [LogoutController::class, 'do_logout'])->name('do.logo
 
 //backend route group start
 Route::group(['prefix' => 'admindashboard', 'middleware' => 'auth'], function () {
+
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
+    //chart
+    Route::get('post-history-chart', [DashboardController::class, 'post_history_chart'])->name('post.history.chart');
+    Route::get('business-history-chart', [DashboardController::class, 'business_history_chart'])->name('business.history.chart');
 
     //profile module routes start
     Route::group(['prefix' => 'profile-module'], function () {

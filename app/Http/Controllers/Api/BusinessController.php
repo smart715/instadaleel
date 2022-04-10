@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AppDataModule\Business\BusinessResource;
+use App\Http\Resources\CommunityModule\BusinessReview\BusinessReviewResourceCollection;
 use App\Models\AppDataModule\Business;
 use App\Models\AppDataModule\BusinessPackage;
+use App\Models\AppDataModule\BusinessReview;
 use App\Models\AppDataModule\Package;
 use Carbon\Carbon;
 use Exception;
@@ -198,4 +200,96 @@ class BusinessController extends Controller
         }
     }
     //business_details function end
+
+
+    //add_business_review function start
+    public function add_business_review(Request $request){
+        try{
+            $validator = Validator::make($request->all(),[
+                "business_id" => "required|integer|exists:businesses,id",
+                "customer_id" => "required|integer|exists:customers,id",
+                "rating" => "required|integer",
+                "comment" => "required",
+            ]);       
+
+            if( $validator->fails() ){
+                return response()->json([
+                    'status' => 'error',
+                    'data' => $validator->errors()
+                ],200);
+            }
+            else{
+
+                if( BusinessReview::where("business_id", $request->business_id)->where("customer_id",$request->customer_id)->select("id")->first() ){
+                    return response()->json([
+                        'status' => 'warning',
+                        'data' => 'Review already submitted'
+                    ],200);
+                }
+                else{
+                    $business_review = new BusinessReview();
+
+                    $business_review->business_id = $request->business_id;
+                    $business_review->customer_id = $request->customer_id;
+                    $business_review->rating = $request->rating;
+                    $business_review->comment = $request->comment;
+                    $business_review->is_approved = false;
+                    $business_review->is_shown = false;
+                    $business_review->month = Carbon::now()->month;
+                    $business_review->year = Carbon::now()->year;
+    
+                    if( $business_review->save() ){
+                        return response()->json([
+                            'status' => 'success',
+                            'data' => 'Review submitted'
+                        ],200);
+                    }
+                }
+                
+
+            }
+        }
+        catch( Exception $e ){
+            return response()->json([
+                'status' => 'error',
+                'data' => $e->getMessage()
+            ],200);
+        }
+    }
+    //add_business_review function 
+    
+
+    //get_business_review function start
+    public function get_business_review(Request $request){
+        try{
+            $validator = Validator::make($request->all(),[
+                "business_id" => "required|integer|exists:businesses,id",
+            ]);  
+
+            if( $validator->fails() ){
+                return response()->json([
+                    'status' => 'error',
+                    'data' => $validator->errors()
+                ],200);
+            }
+            else{
+                $business_reviews = BusinessReview::where("business_id", $request->business_id)
+                ->select("customer_id","rating","comment")
+                ->with("customer")
+                ->paginate(10);
+
+                return response()->json([
+                    'status' => 'success',
+                    'data' => $business_reviews
+                ],200);
+            }
+        }
+        catch( Exception $e ){
+            return response()->json([
+                'status' => 'error',
+                'data' => $e->getMessage()
+            ],200);
+        }
+    }
+    //get_business_review function end
 }

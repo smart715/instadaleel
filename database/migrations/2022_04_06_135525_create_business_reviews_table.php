@@ -23,6 +23,9 @@ class CreateBusinessReviewsTable extends Migration
             $table->boolean("is_approved")->default(false);
             $table->boolean("is_shown")->default(false);
 
+            $table->integer("month");
+            $table->integer("year");
+
             $table->foreign("business_id")->references("id")->on("businesses")->onDelete("cascade");
             $table->foreign("customer_id")->references("id")->on("customers")->onDelete("cascade");
 

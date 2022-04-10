@@ -9,6 +9,7 @@ use App\Http\Resources\CommunityModule\PostComment\PostCommentResource;
 use App\Models\CommunityModule\CommentLike;
 use App\Models\CommunityModule\Post;
 use App\Models\CommunityModule\PostLikeComment;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -41,6 +42,9 @@ class PostController extends Controller
                 $post->is_shown = true;
                 $post->total_like = 0;
                 $post->total_comment = 0;
+
+                $post->month = Carbon::now()->month;
+                $post->year = Carbon::now()->year;
 
                 //image insert start
                 $data = [];

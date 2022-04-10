@@ -24,6 +24,9 @@ class CreatePostsTable extends Migration
             $table->unsignedBigInteger("total_like")->default(0);
             $table->unsignedBigInteger("total_comment")->default(0);
 
+            $table->integer("month");
+            $table->integer("year");
+
             $table->foreign("customer_id")->references("id")->on("customers")->onDelete("cascade");
 
             $table->timestamps();
