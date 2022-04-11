@@ -8,6 +8,8 @@ use App\Models\AppDataModule\Category;
 use App\Models\CommunityModule\Post;
 use App\Models\CommunityModule\PostLikeComment;
 use Carbon\Carbon;
+use App\Models\AppDataModule\BusinessPackage;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -18,7 +20,6 @@ class DashboardController extends Controller
             $category = Category::select("id")->count();
             $posts = Post::select("id")->count();
             $post_like_comment = PostLikeComment::select("type")->get();
-
 
             return view('backend.dashboard', compact(
                 'category', 'posts', 'post_like_comment'

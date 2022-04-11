@@ -13,6 +13,7 @@ use App\Models\AppDataModule\Package;
 use App\Models\SettingsModule\Banner;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class ApiController extends Controller
 {
@@ -187,4 +188,41 @@ class ApiController extends Controller
     } 
     //box_details function end
 
+
+    //delete_event function start
+    public function delete_event(Request $request){
+        try{
+            $event = Event::where("id", $request->event_id)->first();
+
+            if( $event ){
+
+                if( File::exists('images/event/'. $event->image) ){
+                    File::delete('images/event/'. $event->image);
+                }
+
+                if( $event->delete() ){
+                    return response()->json([
+                        'status' => 'success',
+                        'data' => 'Event deleted.'
+                    ],200);
+                }
+                
+            }
+            else{
+                return response()->json([
+                    'status' => 'error',
+                    'data' => 'No event found'
+                ],200);
+            }
+
+
+        }
+        catch( Exception $e ){
+            return response()->json([
+                'status' => 'error',
+                'data' => $e->getMessage()
+            ],200);
+        }
+    } 
+    //delete_event function end
 }

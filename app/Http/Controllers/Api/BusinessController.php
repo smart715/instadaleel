@@ -209,7 +209,7 @@ class BusinessController extends Controller
 
 
     //get_all_business function start
-    public function get_all_business(Request $request,$type){
+    public function get_business(Request $request,$type){
         try{
             $validator = Validator::make($request->all(),[
                 "customer_id" => "required|integer|exists:customers,id",
@@ -226,9 +226,9 @@ class BusinessController extends Controller
                 if( $type == "All" ){
 
                     $business = Business::where("is_active", true)->where("status","Running")
-                    ->select("id","name","image","rating","short_description")
-                    ->orderBy("id","desc")
-                    ->paginate(10);
+                                ->select("id","name","image","rating","short_description")
+                                ->orderBy("id","desc")
+                                ->paginate(10);
 
                     return response()->json([
                         'status' => 'success',
@@ -262,6 +262,29 @@ class BusinessController extends Controller
     }
     //get_all_business function end
 
+
+    //get_pinned_business function start
+    public function get_pinned_business(){
+        try{
+            $business = Business::where("is_active", true)->where("status","Running")
+                        ->where("is_pinned", true)
+                        ->select("id","name","image","rating","short_description")
+                        ->orderBy("id","desc")
+                        ->get();
+
+            return response()->json([
+                'status' => 'success',
+                'data' => $business
+            ],200);
+        }
+        catch( Exception $e ){
+            return response()->json([
+                'status' => 'error',
+                'data' => $e->getMessage()
+            ],200);
+        }
+    }
+    //get_pinned_business function end
 
 
     //business_details function start
@@ -390,4 +413,65 @@ class BusinessController extends Controller
         }
     }
     //get_business_review function end
+
+
+    //latest_business_review function start
+    public function latest_business_review(){
+        try{
+            $business_reviews = BusinessReview::select("customer_id","rating","comment")
+                ->orderBy("id","desc")
+                ->with("customer")
+                ->take(10)
+                ->get();
+
+                return response()->json([
+                    'status' => 'success',
+                    'data' => $business_reviews
+                ],200);
+        }
+        catch( Exception $e ){
+            return response()->json([
+                'status' => 'error',
+                'data' => $e->getMessage()
+            ],200);
+        }
+    }
+    //latest_business_review function end
+
+
+    //delete_business function start
+    public function delete_business(Request $request){
+        try{
+            $business = Business::where("id", $request->business_id)->first();
+
+            if( $business ){
+                
+                if( File::exists('images/business/'. $business->image) ){
+                    File::delete('images/business/'. $business->image);
+                }
+
+                if( $business->delete() ){
+                    return response()->json([
+                        'status' => 'success',
+                        'data' => 'Business Deleted'
+                    ],200);
+                }
+
+            }
+            else{
+                return response()->json([
+                    'status' => 'error',
+                    'data' => 'No business found'
+                ],200);
+            }
+
+        }
+        catch( Exception $e ){
+            return response()->json([
+                'status' => 'error',
+                'data' => $e->getMessage()
+            ],200);
+        }
+    }
+    //delete_business function end
 }

@@ -29,34 +29,47 @@ class AppInfoController extends Controller
     public function update(Request $request, $id){
         if( can("edit_app_info") ){
             try{
-                $app_info = AppInfo::find($id);
 
-                if( $request->logo ){
-                    if( File::exists('images/info/'. $app_info->logo) ){
-                        File::delete('images/info/'. $app_info->logo);
+                $validator = Validator::make($request->all(),[
+                    "total_pinned_business" => "required|min:0|integer",
+                ]);
+
+                if( $validator->fails() ){
+                    return response()->json(['errors' => $validator->errors()], 422);
+                }
+                else{
+                    $app_info = AppInfo::find($id);
+
+                    if( $request->logo ){
+                        if( File::exists('images/info/'. $app_info->logo) ){
+                            File::delete('images/info/'. $app_info->logo);
+                        }
+                        $image = $request->file('logo');
+                        $img = time().Str::random(12).'.'.$image->getClientOriginalExtension();
+                        $location = public_path('images/info/'.$img);
+                        Image::make($image)->save($location);
+                        $app_info->logo = $img;
                     }
-                    $image = $request->file('logo');
-                    $img = time().Str::random(12).'.'.$image->getClientOriginalExtension();
-                    $location = public_path('images/info/'.$img);
-                    Image::make($image)->save($location);
-                    $app_info->logo = $img;
+    
+                    if( $request->fav ){
+                        if( File::exists('images/info/'. $app_info->fav) ){
+                            File::delete('images/info/'. $app_info->fav);
+                        }
+                        $image = $request->file('fav');
+                        $img = time().Str::random(12).'.'.$image->getClientOriginalExtension();
+                        $location = public_path('images/info/'.$img);
+                        Image::make($image)->save($location);
+                        $app_info->fav = $img;
+                    }
+                    
+                    $app_info->total_pinned_business = $request->total_pinned_business;
+    
+                    if( $app_info->save() ){
+                        return response()->json(['success' => 'App Info Updated'], 200);
+                    }
                 }
 
-                if( $request->fav ){
-                    if( File::exists('images/info/'. $app_info->fav) ){
-                        File::delete('images/info/'. $app_info->fav);
-                    }
-                    $image = $request->file('fav');
-                    $img = time().Str::random(12).'.'.$image->getClientOriginalExtension();
-                    $location = public_path('images/info/'.$img);
-                    Image::make($image)->save($location);
-                    $app_info->fav = $img;
-                }
                 
-
-                if( $app_info->save() ){
-                    return response()->json(['success' => 'App Info Updated'], 200);
-                }
 
             }
             catch( Exception $e ){

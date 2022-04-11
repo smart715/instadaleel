@@ -306,6 +306,32 @@ class PostController extends Controller
     //get_post function end
 
 
+    //latest_post function start
+    public function latest_post(Request $request){
+        try{
+            $post = Post::where("is_approved", true)
+            ->where("is_shown", true)
+            ->select("customer_id","image","description","total_like","total_comment","id","created_at")
+            ->with('customer_data')
+            ->orderBy("id","desc")
+            ->take(10)
+            ->get();
+
+            return response()->json([
+            'status' => 'success',
+            'data' => $post
+            ],200);
+        }
+        catch( Exception $e ){
+            return response()->json([
+                'status' => 'error',
+                'data' => $e->getMessage()
+            ],200);
+        }
+    } 
+    //latest_post function end
+
+
     //post_like function start
     public function post_like(Request $request){
         try{

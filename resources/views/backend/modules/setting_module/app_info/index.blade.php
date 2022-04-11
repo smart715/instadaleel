@@ -56,6 +56,11 @@
                                                 Logo & Fav
                                             </a>
 
+                                            <a class="nav-link" id="vert-tabs-home-tab" data-toggle="pill"
+                                                href="#tab-two" role="tab" aria-controls="vert-tabs-home"
+                                                aria-selected="true">
+                                                Settings
+                                            </a>
 
                                         </div>
                                     </div>
@@ -156,6 +161,18 @@
                                                         </div>
                                                     </div>
 
+                                                </div>
+                                            </div>
+                                            <!-- ITEM END -->
+
+                                            <!-- ITEM START -->
+                                            <div class="tab-pane text-left fade " id="tab-two"
+                                                role="tabpanel" aria-labelledby="vert-tabs-home-tab">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <label>Total Pinned Business</label>
+                                                        <input type="number" class="form-control" name="total_pinned_business" value="{{ $app_info->total_pinned_business }}">
+                                                    </div>
                                                 </div>
                                             </div>
                                             <!-- ITEM END -->

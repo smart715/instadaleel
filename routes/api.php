@@ -59,6 +59,20 @@ Route::group(['middleware' => 'user_active'], function () {
 	Route::get("box-details",[ApiController::class,"box_details"]);
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	//profile update
 	Route::post('update-profile', [AuthController::class, 'update_profile']);
 
@@ -69,10 +83,43 @@ Route::group(['middleware' => 'user_active'], function () {
 	Route::post('manage-session', [AuthController::class, 'manage_session']);
 
 
+
+
+
+
+
+
+
+
+
+
 	
 
 	//get event
 	Route::get("get-event",[ApiController::class,"get_event"]);
+
+	//delete event
+	Route::post("delete-event",[ApiController::class,"delete_event"]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	//add post
 	Route::post("add-post",[PostController::class,"add_post"]);
@@ -98,6 +145,27 @@ Route::group(['middleware' => 'user_active'], function () {
 	//comment link
 	Route::post("comment-like",[PostController::class,"comment_like"]);
 
+	//latest post
+	Route::get("latest-post",[PostController::class,"latest_post"]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	//get package
 	Route::get("get-package",[ApiController::class,"get_package"]);
 
@@ -108,7 +176,10 @@ Route::group(['middleware' => 'user_active'], function () {
 	Route::post("edit-business",[BusinessController::class,"edit_business"]);
 
 	//get business
-	Route::get("get-business/{type}",[BusinessController::class,"get_all_business"]);
+	Route::get("get-business/{type}",[BusinessController::class,"get_business"]);
+
+	//get pinned business
+	Route::get("get-pinned-business",[BusinessController::class,"get_pinned_business"]);
 
 	//business details
 	Route::get("business-details",[BusinessController::class,"business_details"]);
@@ -118,5 +189,11 @@ Route::group(['middleware' => 'user_active'], function () {
 
 	//get business review
 	Route::get("get-business-review",[BusinessController::class,"get_business_review"]);
+
+	//latest review
+	Route::get("latest-business-review",[BusinessController::class,"latest_business_review"]);
+
+	//delete business
+	Route::post("delete-business",[BusinessController::class,"delete_business"]);
 
 });
