@@ -42,14 +42,6 @@ Route::group(['prefix' => 'auth'], function () {
 
 Route::group(['middleware' => 'user_active'], function () {
 
-	//profile update
-	Route::post('update-profile', [AuthController::class, 'update_profile']);
-
-	//change password
-	Route::post('change-password', [AuthController::class, 'change_password']);
-
-	//manage session
-	Route::post('manage-session', [AuthController::class, 'manage_session']);
 
 	//banner
 	Route::get("get-banners",[ApiController::class,"get_banner"]);
@@ -59,6 +51,25 @@ Route::group(['middleware' => 'user_active'], function () {
 
 	//get sub category
 	Route::get("get-sub-categories/{id}",[ApiController::class,"get_sub_categories"]);
+
+	//get boxs
+	Route::get("get-boxes",[ApiController::class,"get_boxes"]);
+
+	//box details
+	Route::get("box-details",[ApiController::class,"box_details"]);
+
+
+	//profile update
+	Route::post('update-profile', [AuthController::class, 'update_profile']);
+
+	//change password
+	Route::post('change-password', [AuthController::class, 'change_password']);
+
+	//manage session
+	Route::post('manage-session', [AuthController::class, 'manage_session']);
+
+
+	
 
 	//get event
 	Route::get("get-event",[ApiController::class,"get_event"]);
@@ -93,8 +104,11 @@ Route::group(['middleware' => 'user_active'], function () {
 	//add business
 	Route::post("add-business",[BusinessController::class,"add_business"]);
 
-	//get all business
-	Route::get("get-all-business",[BusinessController::class,"get_all_business"]);
+	//edit business
+	Route::post("edit-business",[BusinessController::class,"edit_business"]);
+
+	//get business
+	Route::get("get-business/{type}",[BusinessController::class,"get_all_business"]);
 
 	//business details
 	Route::get("business-details",[BusinessController::class,"business_details"]);

@@ -130,8 +130,86 @@ class BusinessController extends Controller
     //add_business function end
 
 
+    //edit_business function start
+    public function edit_business(Request $request){
+        try{
+            $validator = Validator::make($request->all(),[
+                "customer_id" => "required|integer|exists:customers,id",
+                "location_id" => "required|integer|exists:locations,id",
+                "category_id" => "required|integer|exists:categories,id",
+                "business_id" => "required|integer|exists:businesses,id",
+                "name" => "required",
+                "email" => "required",
+                "address" => "required",
+                "contact_number" => "required",
+                "short_description" => "required",
+                "website_link" => "required",
+                "office_hour" => "required",
+            ]);       
+
+            if( $validator->fails() ){
+                return response()->json([
+                    'status' => 'error',
+                    'data' => $validator->errors()
+                ],200);
+            }
+            else{
+                $business = Business::find($request->business_id);
+
+                $business->location_id = $request->location_id;
+                $business->category_id = $request->category_id;
+                $business->name = $request->name;
+                $business->email = $request->email;
+
+                if( $request->image ){
+                    if( File::exists('images/business/'. $business->image) ){
+                        File::delete('images/business/'. $business->image);
+                    }
+                    $image = $request->file('image');
+                    $img = time().Str::random(12).'.'.$image->getClientOriginalExtension();
+                    $path = public_path('images/business/'.$img);
+                    Image::make($image)->save($path);
+                    $business->image = $img;
+                }
+
+                $business->address = $request->address;
+                $business->contact_number = $request->contact_number;
+                $business->short_description = $request->short_description;
+                
+                $social_media_links = [];
+                array_push($social_media_links,[
+                    'instagram_link' => $request->instagram_link ?? $business->instagram_link,
+                    'twitter_link' => $request->twitter_link ?? $business->twitter_link,
+                    'facebook_link' => $request->facebook_link ?? $business->facebook_link,
+                    'youtube_link' => $request->youtube_link ?? $business->youtube_link,
+                    'telegram_link' => $request->telegram_link ?? $business->telegram_link,
+                ]);
+                $business->social_links = json_encode($social_media_links);
+                $business->website_link = $request->website_link;
+                $business->office_hour = $request->office_hour;
+
+                if( $business->save() ){
+
+                    return response()->json([
+                        'status' => 'success',
+                        'data' => 'Business updated.'
+                    ],200);
+                    
+                }
+            }
+        }
+        catch( Exception $e ){
+            return response()->json([
+                'status' => 'error',
+                'data' => $e->getMessage()
+            ],200);
+        }
+    } 
+    //edit_business function end
+
+
     //get_all_business function start
-    public function get_all_business(Request $request){
+    public function get_all_business(Request $request,$type){
         try{
             $validator = Validator::make($request->all(),[
                 "customer_id" => "required|integer|exists:customers,id",
@@ -144,15 +222,35 @@ class BusinessController extends Controller
                 ],200);
             }
             else{
-                $business = Business::where("is_active", true)->where("status","Running")
+
+                if( $type == "All" ){
+
+                    $business = Business::where("is_active", true)->where("status","Running")
+                    ->select("id","name","image","rating","short_description")
+                    ->orderBy("id","desc")
+                    ->paginate(10);
+
+                    return response()->json([
+                        'status' => 'success',
+                        'data' => $business
+                    ],200);
+
+                }
+                if( $type == "Latest" ){
+
+                    $business = Business::where("is_active", true)->where("status","Running")
                             ->select("id","name","image","rating","short_description")
                             ->orderBy("id","desc")
-                            ->paginate(10);
+                            ->take(3)
+                            ->paginate(3);
+
+                    return response()->json([
+                        'status' => 'success',
+                        'data' => $business
+                    ],200);
+
+                }
                 
-                return response()->json([
-                    'status' => 'success',
-                    'data' => $business
-                ],200);
             }
         }
         catch( Exception $e ){
@@ -165,9 +263,9 @@ class BusinessController extends Controller
     //get_all_business function end
 
 
+
     //business_details function start
     public function business_details(Request $request){
-
         try{
             $validator = Validator::make($request->all(),[
                 "business_id" => "required|integer|exists:businesses,id",

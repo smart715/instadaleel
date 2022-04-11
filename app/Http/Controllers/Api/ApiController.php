@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\AppDataModule\Box\BoxResource;
+use App\Http\Resources\AppDataModule\Box\BoxResourceCollection;
 use App\Http\Resources\Banner\BannerResourceCollection;
+use App\Models\AppDataModule\Box;
 use App\Models\AppDataModule\Category;
 use App\Models\AppDataModule\Event;
 use App\Models\AppDataModule\Package;
@@ -134,5 +137,54 @@ class ApiController extends Controller
         }
     }
     //get_package function end
+
+
+    //get_boxes function start
+    public function get_boxes(){
+        try{
+            $boxs = Box::select("id","image","title")->get();
+
+            return response()->json([
+                'status' => 'success',
+                'data' => new BoxResourceCollection($boxs)
+            ],200);
+        }
+        catch( Exception $e ){
+            return response()->json([
+                'status' => 'error',
+                'data' => $e->getMessage()
+            ],200);
+        }
+    } 
+    //get_boxes function end
+
+
+    //box_details function start
+    public function box_details(Request $request){
+        try{
+            $box = Box::select("description","image","title")->where("id", $request->box_id)->first();
+
+            if( $box ){
+                return response()->json([
+                    'status' => 'success',
+                    'data' => new BoxResource($box)
+                ],200);
+            }
+            else{
+                return response()->json([
+                    'status' => 'error',
+                    'data' => 'No box found'
+                ],200);
+            }
+
+        }
+        catch( Exception $e ){
+            return response()->json([
+                'status' => 'error',
+                'data' => $e->getMessage()
+            ],200);
+        }
+    } 
+    //box_details function end
 
 }
