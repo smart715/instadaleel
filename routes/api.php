@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BannerController;
 use App\Http\Controllers\Api\BusinessController;
+use App\Http\Controllers\Api\OfferController;
 use App\Http\Controllers\Api\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -58,7 +59,11 @@ Route::group(['middleware' => 'user_active'], function () {
 	//box details
 	Route::get("box-details",[ApiController::class,"box_details"]);
 
+	//favorite listed
+	Route::post("favorite-listed",[ApiController::class,"favorite_listed"]);
 
+	//get favorite
+	Route::get("get-favorite",[ApiController::class,"get_favorite"]);
 
 
 
@@ -195,5 +200,25 @@ Route::group(['middleware' => 'user_active'], function () {
 
 	//delete business
 	Route::post("delete-business",[BusinessController::class,"delete_business"]);
+
+
+
+
+
+
+
+
+
+	//add offer
+	Route::post("add-offer",[OfferController::class,"add_offer"]);
+
+	//get offer
+	Route::get("get-offer",[OfferController::class,"get_offer"]);
+
+	//edit offer
+	Route::post("edit-offer",[OfferController::class,"edit_offer"]);
+
+	//delete offer
+	Route::post("delete-offer",[OfferController::class,"delete_offer"]);
 
 });

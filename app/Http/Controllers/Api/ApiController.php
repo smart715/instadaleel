@@ -9,11 +9,13 @@ use App\Http\Resources\Banner\BannerResourceCollection;
 use App\Models\AppDataModule\Box;
 use App\Models\AppDataModule\Category;
 use App\Models\AppDataModule\Event;
+use App\Models\AppDataModule\Favourite;
 use App\Models\AppDataModule\Package;
 use App\Models\SettingsModule\Banner;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
 
 class ApiController extends Controller
 {
@@ -225,4 +227,90 @@ class ApiController extends Controller
         }
     } 
     //delete_event function end
+
+
+    //favorite_listed function start
+    public function favorite_listed(Request $request){
+        try{
+            $validator = Validator::make($request->all(), [
+                "business_id" => "required|integer|exists:businesses,id",
+                "customer_id" => "required|integer|exists:customers,id",
+            ]);
+
+
+            if( $validator->fails() ){
+                return response()->json([
+                    'status' => 'errors',
+                    'data' => $validator->errors()
+                ],200);
+            }
+            else{
+                $favourite = Favourite::where('business_id', $request->business_id)->where("customer_id", $request->customer_id)->first();
+
+                if( $favourite ){
+                    if( $favourite->delete() ){
+                        return response()->json([
+                            'status' => 'success',
+                            'data' => 'Remove From The Favourite list'
+                        ],200);
+                    }
+                }
+                else{
+                    $favourite = new Favourite();
+
+                    $favourite->business_id = $request->business_id;
+                    $favourite->customer_id = $request->customer_id;
+
+                    if( $favourite->save() ){
+                        return response()->json([
+                            'status' => 'success',
+                            'data' => 'Favourite listed'
+                        ],200);
+                    }
+                }
+
+            }
+
+
+        }
+        catch( Exception $e ){
+            return response()->json([
+                'status' => 'error',
+                'data' => $e->getMessage()
+            ],200);
+        }
+    }
+    //favorite_listed function end
+
+
+    //get_favorite function start
+    public function get_favorite(Request $request){
+        try{
+            $validator = Validator::make($request->all(), [
+                "customer_id" => "required|integer|exists:customers,id",
+            ]);
+
+
+            if( $validator->fails() ){
+                return response()->json([
+                    'status' => 'errors',
+                    'data' => $validator->errors()
+                ],200);
+            }
+            else{
+                $favourite = Favourite::where("customer_id", $request->customer_id)->select("business_id","id")->with("business")->paginate(10);
+                return response()->json([
+                    'status' => 'success',
+                    'data' => $favourite
+                ],200);
+            }
+        }
+        catch( Exception $e ){
+            return response()->json([
+                'status' => 'error',
+                'data' => $e->getMessage()
+            ],200);
+        }
+    } 
+    //get_favorite function end
 }
