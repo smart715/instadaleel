@@ -55,8 +55,15 @@ Route::group(['prefix' => 'admindashboard', 'middleware' => 'auth'], function ()
         require_once 'app_data_module/city.php';
         require_once 'app_data_module/event.php';
         require_once 'app_data_module/package.php';
+        require_once 'app_data_module/business.php';
     });
     //app data module routes end
+
+    //community module routes start
+    Route::group(['prefix' => 'community-module'], function () {
+        require_once 'community_module/post.php';
+    });
+    //community module routes end
 
     //settings module routes start
     Route::group(['prefix' => 'settings-module'], function () {

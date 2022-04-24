@@ -19,6 +19,7 @@ class CreateAppInfosTable extends Migration
             $table->string("logo")->nullable();
             $table->string("fav")->nullable();
             $table->integer('total_pinned_business')->nullable();
+            $table->integer('total_pinned_business')->nullable();
 
             $table->timestamps();
         });

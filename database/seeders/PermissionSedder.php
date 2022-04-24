@@ -234,6 +234,60 @@ class PermissionSedder extends Seeder
                 'display_name' => '-- View Package',
                 'module_id' => 3,
             ],
+            [
+                'id' => 38,
+                'key' => 'community_module',
+                'display_name' => 'Community Module',
+                'module_id' => 4,
+            ],
+            [
+                'id' => 39,
+                'key' => 'all_post',
+                'display_name' => 'All Post',
+                'module_id' => 4,
+            ],
+            [
+                'id' => 40,
+                'key' => 'edit_post',
+                'display_name' => '-- Edit Post',
+                'module_id' => 4,
+            ],
+            [
+                'id' => 41,
+                'key' => 'view_post',
+                'display_name' => '-- View Post',
+                'module_id' => 4,
+            ],
+            [
+                'id' => 42,
+                'key' => 'delete_post',
+                'display_name' => '-- Delete Post',
+                'module_id' => 4,
+            ],
+            [
+                'id' => 43,
+                'key' => 'all_business',
+                'display_name' => 'All Business',
+                'module_id' => 3,
+            ],
+            [
+                'id' => 44,
+                'key' => 'Edit_business',
+                'display_name' => '-- Edit Business',
+                'module_id' => 3,
+            ],
+            [
+                'id' => 45,
+                'key' => 'view_business',
+                'display_name' => '-- View Business',
+                'module_id' => 3,
+            ],
+            [
+                'id' => 46,
+                'key' => 'delete_business',
+                'display_name' => '-- Delete Business',
+                'module_id' => 3,
+            ],
         ]);
 
     }

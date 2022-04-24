@@ -30,7 +30,7 @@ class ModuleSeeder extends Seeder
                 'name' => 'Setting Module',
                 'key' => 'settings',
                 'icon' => 'fas fa-cog',
-                'position' =>6,
+                'position' => 6,
                 'route' => null,
             ],
 
@@ -39,7 +39,16 @@ class ModuleSeeder extends Seeder
                 'name' => 'App Datas',
                 'key' => 'app_data_module',
                 'icon' => 'fas fa-mobile',
-                'position' =>2,
+                'position' => 2,
+                'route' => null,
+            ],
+
+            [
+                'id' => 4,
+                'name' => 'Community Module',
+                'key' => 'community_module',
+                'icon' => 'fas fa-hand-holding-heart',
+                'position' => 3,
                 'route' => null,
             ],
             

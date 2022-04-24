@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 10, 2022 at 12:42 PM
+-- Generation Time: Apr 24, 2022 at 12:42 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -31,6 +31,7 @@ CREATE TABLE `app_infos` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `logo` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `fav` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `total_pinned_business` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -39,8 +40,8 @@ CREATE TABLE `app_infos` (
 -- Dumping data for table `app_infos`
 --
 
-INSERT INTO `app_infos` (`id`, `logo`, `fav`, `created_at`, `updated_at`) VALUES
-(1, '1648102475jRRc4aDIsk1f.png', '1648102475GoZp0ku3Mxl7.png', NULL, '2022-03-24 00:14:35');
+INSERT INTO `app_infos` (`id`, `logo`, `fav`, `total_pinned_business`, `created_at`, `updated_at`) VALUES
+(1, '1648102475jRRc4aDIsk1f.png', '1648102475GoZp0ku3Mxl7.png', 5, NULL, '2022-04-11 07:57:00');
 
 -- --------------------------------------------------------
 
@@ -121,14 +122,6 @@ CREATE TABLE `businesses` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `businesses`
---
-
-INSERT INTO `businesses` (`id`, `customer_id`, `location_id`, `category_id`, `code`, `name`, `email`, `image`, `address`, `contact_number`, `short_description`, `rating`, `social_links`, `website_link`, `office_hour`, `is_active`, `is_pinned`, `status`, `month`, `year`, `created_at`, `updated_at`) VALUES
-(8, 8, 2, 6, 'B-557713', 'Emicon Technology', 'info@emicontech.com', '1649153619PaoddTxBsxJC.png', 'Dubai', '01858361812', 'aaa', 0.00, '[{\"instagram_link\":null,\"twitter_link\":null,\"facebook_link\":null,\"youtube_link\":null,\"telegram_link\":null}]', 'aaa', '9:00 to 17:00', 1, 0, 'Running', 4, 2022, '2022-04-05 10:13:39', '2022-04-05 10:13:39'),
-(9, 8, 2, 6, 'B-288036', 'Emicon Technology', 'info@emicontech.com', '1649227139jqIeeXu73sDE.png', 'Dubai', '01858361812', 'aaa', 0.00, '[{\"instagram_link\":null,\"twitter_link\":null,\"facebook_link\":null,\"youtube_link\":null,\"telegram_link\":null}]', 'aaa', '9:00 to 17:00', 1, 0, 'Running', 4, 2022, '2022-04-06 06:38:59', '2022-04-06 06:38:59');
-
 -- --------------------------------------------------------
 
 --
@@ -147,14 +140,6 @@ CREATE TABLE `business_packages` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `business_packages`
---
-
-INSERT INTO `business_packages` (`id`, `business_id`, `package_id`, `transaction_id`, `total`, `expiry_date`, `payment_status`, `status`, `created_at`, `updated_at`) VALUES
-(4, 8, 1, 'B-557713', 50, '2022-06-04', 'Success', 'Running', '2022-04-05 10:13:39', '2022-04-05 10:13:39'),
-(5, 9, 1, 'B-288036', 50, '2022-06-05', 'Success', 'Running', '2022-04-06 06:38:59', '2022-04-06 06:38:59');
 
 -- --------------------------------------------------------
 
@@ -175,13 +160,6 @@ CREATE TABLE `business_reviews` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `business_reviews`
---
-
-INSERT INTO `business_reviews` (`id`, `business_id`, `customer_id`, `rating`, `comment`, `is_approved`, `is_shown`, `month`, `year`, `created_at`, `updated_at`) VALUES
-(1, 8, 8, 5, 'Nice Company', 0, 0, 4, 2022, '2022-04-10 09:56:02', '2022-04-10 09:56:02');
 
 -- --------------------------------------------------------
 
@@ -261,7 +239,7 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id`, `name`, `image`, `email`, `phone`, `gender`, `about`, `occupation`, `password`, `address`, `latitude`, `longitude`, `is_otp_verified`, `is_active`, `last_active`, `month`, `year`, `created_at`, `updated_at`) VALUES
-(8, 'Md Sehirul Islam Rehi', NULL, 'rehi@gmail.com', '01858361812', 'MaleFemale', NULL, NULL, '$2y$10$plBVMX3p8Bi3wq4Dk4V95O9mFsbEgs1xnf4PLZ7oU6VrRDw3kenhu', NULL, NULL, NULL, 1, 1, '2022-04-10 16:27:51', 3, 2022, '2022-03-31 10:43:54', '2022-04-10 10:27:51');
+(8, 'Md Sehirul Islam Rehi', NULL, 'rehi@gmail.com', '01858361812', 'MaleFemale', NULL, NULL, '$2y$10$plBVMX3p8Bi3wq4Dk4V95O9mFsbEgs1xnf4PLZ7oU6VrRDw3kenhu', NULL, NULL, NULL, 1, 1, '2022-04-24 12:40:34', 3, 2022, '2022-03-31 10:43:54', '2022-04-24 06:40:34');
 
 -- --------------------------------------------------------
 
@@ -309,6 +287,20 @@ CREATE TABLE `failed_jobs` (
   `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `favourites`
+--
+
+CREATE TABLE `favourites` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `business_id` bigint(20) UNSIGNED NOT NULL,
+  `customer_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -379,7 +371,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (25, '2022_04_03_150511_create_packages_table', 13),
 (29, '2022_04_03_151021_create_businesses_table', 14),
 (30, '2022_04_05_115232_create_business_packages_table', 14),
-(31, '2022_04_06_135525_create_business_reviews_table', 15);
+(31, '2022_04_06_135525_create_business_reviews_table', 15),
+(32, '2022_04_12_122507_create_offers_table', 16),
+(33, '2022_04_12_150026_create_favourites_table', 17);
 
 -- --------------------------------------------------------
 
@@ -405,7 +399,30 @@ CREATE TABLE `modules` (
 INSERT INTO `modules` (`id`, `name`, `key`, `icon`, `position`, `route`, `created_at`, `updated_at`) VALUES
 (1, 'User Module', 'user_module', 'fas fa-users', 1, NULL, NULL, NULL),
 (2, 'Setting Module', 'settings', 'fas fa-cog', 6, NULL, NULL, NULL),
-(3, 'App Datas', 'app_data_module', 'fas fa-mobile', 2, NULL, NULL, NULL);
+(3, 'App Datas', 'app_data_module', 'fas fa-mobile', 2, NULL, NULL, NULL),
+(4, 'Community Module', 'community_module', 'fas fa-hand-holding-heart', 3, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `offers`
+--
+
+CREATE TABLE `offers` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `position` int(11) NOT NULL,
+  `title` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `image` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `customer_id` bigint(20) UNSIGNED NOT NULL,
+  `business_id` bigint(20) UNSIGNED NOT NULL,
+  `is_approved` tinyint(1) NOT NULL DEFAULT 0,
+  `is_active` tinyint(1) NOT NULL DEFAULT 0,
+  `month` int(11) NOT NULL,
+  `year` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -499,7 +516,16 @@ INSERT INTO `permissions` (`id`, `key`, `display_name`, `module_id`, `created_at
 (34, 'all_package', 'All Package', 3, NULL, NULL),
 (35, 'add_package', '-- Add Package', 3, NULL, NULL),
 (36, 'edit_package', '-- Edit Package', 3, NULL, NULL),
-(37, 'view_package', '-- View Package', 3, NULL, NULL);
+(37, 'view_package', '-- View Package', 3, NULL, NULL),
+(38, 'community_module', 'Community Module', 4, NULL, NULL),
+(39, 'all_post', 'All Post', 4, NULL, NULL),
+(40, 'edit_post', '-- Edit Post', 4, NULL, NULL),
+(41, 'view_post', '-- View Post', 4, NULL, NULL),
+(42, 'delete_post', '-- Delete Post', 4, NULL, NULL),
+(43, 'all_business', 'All Business', 3, NULL, NULL),
+(44, 'Edit_business', '-- Edit Business', 3, NULL, NULL),
+(45, 'view_business', '-- View Business', 3, NULL, NULL),
+(46, 'delete_business', '-- Delete Business', 3, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -541,7 +567,7 @@ CREATE TABLE `posts` (
 --
 
 INSERT INTO `posts` (`id`, `customer_id`, `image`, `description`, `is_approved`, `is_shown`, `total_like`, `total_comment`, `month`, `year`, `created_at`, `updated_at`) VALUES
-(24, 8, '\"[{\\\"id\\\":1,\\\"image\\\":\\\"1649586446ZJQ9ZQcyPjvU.jpg\\\"},{\\\"id\\\":2,\\\"image\\\":\\\"1649586447Uxyald6kKB7G.jpg\\\"}]\"', 'Offer image designed by me.', 1, 1, 1, 0, 4, 2022, '2022-04-10 10:27:27', '2022-04-10 10:27:51');
+(24, 8, '\"[{\\\"id\\\":1,\\\"image\\\":\\\"1649586446ZJQ9ZQcyPjvU.jpg\\\"},{\\\"id\\\":2,\\\"image\\\":\\\"1649586447Uxyald6kKB7G.jpg\\\"}]\"', 'Offer image designed by me.', 0, 1, 1, 0, 4, 2022, '2022-04-10 10:27:27', '2022-04-24 06:40:45');
 
 -- --------------------------------------------------------
 
@@ -612,7 +638,9 @@ INSERT INTO `sub_modules` (`id`, `name`, `key`, `position`, `route`, `module_id`
 (7, 'City', 'city', 3, 'city.all', 3, NULL, NULL),
 (8, 'Boxes', 'boxes', 4, 'boxes.all', 3, NULL, NULL),
 (9, 'All Event', 'all_event', 5, 'event.all', 3, NULL, NULL),
-(10, 'All Package', 'all_package', 6, 'package.all', 3, NULL, NULL);
+(10, 'All Package', 'all_package', 6, 'package.all', 3, NULL, NULL),
+(11, 'All Post', 'all_post', 1, 'post.all', 4, NULL, NULL),
+(12, 'All Business', 'all_business', 7, 'business.all', 3, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -785,6 +813,14 @@ ALTER TABLE `failed_jobs`
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
 
 --
+-- Indexes for table `favourites`
+--
+ALTER TABLE `favourites`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `favourites_business_id_foreign` (`business_id`),
+  ADD KEY `favourites_customer_id_foreign` (`customer_id`);
+
+--
 -- Indexes for table `locations`
 --
 ALTER TABLE `locations`
@@ -806,6 +842,15 @@ ALTER TABLE `modules`
   ADD UNIQUE KEY `modules_name_unique` (`name`),
   ADD UNIQUE KEY `modules_key_unique` (`key`),
   ADD UNIQUE KEY `modules_position_unique` (`position`);
+
+--
+-- Indexes for table `offers`
+--
+ALTER TABLE `offers`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `offers_position_unique` (`position`),
+  ADD KEY `offers_customer_id_foreign` (`customer_id`),
+  ADD KEY `offers_business_id_foreign` (`business_id`);
 
 --
 -- Indexes for table `packages`
@@ -959,6 +1004,12 @@ ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `favourites`
+--
+ALTER TABLE `favourites`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `locations`
 --
 ALTER TABLE `locations`
@@ -968,13 +1019,19 @@ ALTER TABLE `locations`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `modules`
 --
 ALTER TABLE `modules`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `offers`
+--
+ALTER TABLE `offers`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `packages`
@@ -992,7 +1049,7 @@ ALTER TABLE `password_resets`
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `permission_role`
@@ -1004,7 +1061,7 @@ ALTER TABLE `permission_role`
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `post_like_comments`
@@ -1022,7 +1079,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `sub_modules`
 --
 ALTER TABLE `sub_modules`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `super_admins`
@@ -1082,10 +1139,24 @@ ALTER TABLE `events`
   ADD CONSTRAINT `events_location_id_foreign` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`) ON DELETE CASCADE;
 
 --
+-- Constraints for table `favourites`
+--
+ALTER TABLE `favourites`
+  ADD CONSTRAINT `favourites_business_id_foreign` FOREIGN KEY (`business_id`) REFERENCES `businesses` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `favourites_customer_id_foreign` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `locations`
 --
 ALTER TABLE `locations`
   ADD CONSTRAINT `locations_location_id_foreign` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `offers`
+--
+ALTER TABLE `offers`
+  ADD CONSTRAINT `offers_business_id_foreign` FOREIGN KEY (`business_id`) REFERENCES `businesses` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `offers_customer_id_foreign` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `permissions`

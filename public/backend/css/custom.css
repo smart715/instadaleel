@@ -1,12 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Rubik:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
 
 p,label,a,button,li,span,table,input{
-    font-family: 'Merriweather', serif;
+    font-family: 'Rubik', sans-serif;
     font-size: 14px!important;
 }
 h1,h2,h3,h4,h5,h6{
-    font-family: 'Bree Serif', serif;
+    font-family: 'Poppins', sans-serif;
 }
 .dropify-wrapper{
     height: unset!important;

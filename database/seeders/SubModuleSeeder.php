@@ -109,12 +109,32 @@ class SubModuleSeeder extends Seeder
                 'route' => 'package.all',
                 'module_id' => 3,
             ],
+            [
+                'id' => 12,
+                'name' => 'All Business',
+                'key' => 'all_business',
+                'position' => 7,
+                'route' => 'business.all',
+                'module_id' => 3,
+            ],
             //module id 3 end
             
+
+            //module id 4 start
+            [
+                'id' => 11,
+                'name' => 'All Post',
+                'key' => 'all_post',
+                'position' => 1,
+                'route' => 'post.all',
+                'module_id' => 4,
+            ],
+            //module id 4 end
+
 
         
         ]);
 
-        //last id 10
+        //last id 11
     }
 }
