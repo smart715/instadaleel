@@ -11,6 +11,6 @@ class BusinessReview extends Model
     use HasFactory;
 
     public function customer(){
-        return $this->belongsTo(Customer::class)->select("id","name","image");
+        return $this->belongsTo(Customer::class)->select("id","name","image","email","phone");
     }
 }

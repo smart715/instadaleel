@@ -67,7 +67,7 @@
                                              </tr>
                                         </thead>
                                         <tbody>
-                                             @foreach( $businesses as $key => $business )
+                                             @forelse( $businesses as $key => $business )
                                              <tr>
                                                   <td>{{ $key + 1 }}</td>
                                                   <td>
@@ -127,12 +127,25 @@
                                                                       View
                                                                  </a>
                                                                  @endif
+
+                                                                 @if( can("view_business_review") )
+                                                                 <a class="dropdown-item" href="{{ route('business.view.review.all', encrypt($business->id)) }}" class="btn btn-outline-dark">
+                                                                      <i class="fas fa-star"></i>
+                                                                      Reviews
+                                                                 </a>
+                                                                 @endif
                                         
                                                             </div>
                                                        </div>
                                                   </td>
                                              </tr>
-                                             @endforeach
+                                             @empty
+                                             <tr>
+                                                  <td colspan="8" class="text-center">
+                                                       No Data Found
+                                                  </td>
+                                             </tr>                                          
+                                             @endforelse
                                         </tbody>
                                         <tfoot>
                                              {{ $businesses->links() }}

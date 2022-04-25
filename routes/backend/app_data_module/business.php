@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\AppDataModule\Business\BusinessController;
+use App\Http\Controllers\Backend\AppDataModule\Business\BusinessReviewController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'business'], function(){
@@ -18,6 +19,17 @@ Route::group(['prefix' => 'business'], function(){
 
      //view modal
      Route::get("view-modal/{id}",[BusinessController::class,"view_modal"])->name("business.view.modal");
+
+     //all business review
+     Route::get("all-business-review/{id}",[BusinessReviewController::class,"index"])->name("business.view.review.all");
+
+     //view review
+     Route::get("view-review/{id}",[BusinessReviewController::class,"view_modal"])->name("business.review.view");
+
+     //delete
+     Route::get("delete-business-review-modal/{id}",[BusinessReviewController::class,"delete_modal"])->name("business.review.delete.modal");
+     Route::post("delete-business-review/{id}",[BusinessReviewController::class,"delete"])->name("business.review.delete");
+
 
 });
 

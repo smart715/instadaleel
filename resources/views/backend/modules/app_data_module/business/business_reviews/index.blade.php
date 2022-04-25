@@ -18,9 +18,14 @@
                                         Dashboard
                                    </a>
                               </li>
+                              <li class="breadcrumb-item">
+                                   <a href="{{ route('business.all') }}">
+                                        All Business
+                                   </a>
+                              </li>
                               <li class="breadcrumb-item active">
                                    <a href="#">
-                                        All Offer
+                                        {{ $business->code }}
                                    </a>
                               </li>
                          </ol>
@@ -38,28 +43,27 @@
                          <div class="card card-primary card-outline table-responsive">
                               <div class="card-body">
 
-                                   <form action="{{ route('offer.all') }}" method="get">
+                                   <form action="{{ route('business.view.review.all',encrypt($business->id)) }}" method="get">
                                         @csrf
                                         <div class="row">
                                              <div class="col-md-2">
                                                   <label>Search</label>
-                                                  <input type="search" class="form-control" name="search" value="{{ $search }}" >                                              
+                                                  <input type="search" class="form-control" name="search" value="{{ $search }}" placeholder="Customer Name" >                                              
                                              </div>
                                              <div class="col-md-2">
-                                                  <label>Approved Status</label>
-                                                  <select name="is_approved" class="form-control" required>
-                                                       <option value="All" @if( $is_approved == 'All' ) selected @endif >All</option>
-                                                       <option value="1" @if( $is_approved == '1' ) selected @endif >Approved</option>
-                                                       <option value="0" @if( $is_approved == '0' ) selected @endif >Not Approved</option>
-                                                  </select>                                               
+                                                  <label>Star</label>
+                                                  <select name="star" class="form-control">
+                                                       <option value="All" @if( $star == "All" ) selected @endif >All</option>
+                                                       <option value="1" @if( $star == "1" ) selected @endif >1 Star</option>
+                                                       <option value="2" @if( $star == "2" ) selected @endif >2 Star</option>
+                                                       <option value="3" @if( $star == "3" ) selected @endif >3 Star</option>
+                                                       <option value="4" @if( $star == "4" ) selected @endif >4 Star</option>
+                                                       <option value="5" @if( $star == "5" ) selected @endif >5 Star</option>
+                                                  </select>                                              
                                              </div>
                                              <div class="col-md-2">
-                                                  <label>Active Status</label>
-                                                  <select name="is_active" class="form-control" required>
-                                                       <option value="All" @if( $is_active == 'All' ) selected @endif >All</option>
-                                                       <option value="1" @if( $is_active == '1' ) selected @endif >Active</option>
-                                                       <option value="0" @if( $is_active == '0' ) selected @endif >Not Active</option>
-                                                  </select>                                               
+                                                  <label>Date</label>
+                                                  <input type="date" class="form-control" name="date" value="{{ $date }}" >                                              
                                              </div>
                                              <div class="col-md-4">
                                                   <button type="submit" class="btn btn-success mt-4">
@@ -72,74 +76,61 @@
                                    <table class="table table-bordered table-striped dataTable dtr-inline custom-datatable mt-4" id="datatable">
                                         <thead>
                                              <tr>
-                                                  <th>Position</th>
-                                                  <th>Image</th>
-                                                  <th>Title</th>
+                                                  <th>ID</th>
                                                   <th>Customer</th>
-                                                  <th>Business Code</th>
-                                                  <th>Approved Status</th>
-                                                  <th>Status</th>
+                                                  <th>Rating</th>
+                                                  <th>Date</th>
+                                                  <th>Approve Status</th>
+                                                  <th>Shown Status</th>
                                                   <th>Action</th>
                                              </tr>
                                         </thead>
                                         <tbody>
-                                             @forelse( $offers as $key => $offer )
+                                             @forelse( $business_reviews as $key => $business_review )
                                              <tr>
-                                                  <td>{{ $offer->position }}</td>
+                                                  <td>{{ $key + 1 }}</td>
+                                                  <td>{{ $business_review->customer->name }}</td>
+                                                  <td>{{ $business_review->rating }} Star</td>
+                                                  <td>{{ $business_review->created_at->toDayDateTimeString() }}</td>
                                                   <td>
-                                                       <a data-fancybox='gallery' href="{{ asset('images/offer/'. $offer->image) }}">
-                                                            <img src="{{ asset('images/offer/'. $offer->image) }}" width="50px">
-                                                       </a>
-                                                  </td>
-                                                  <td>{{ $offer->title }}</td>
-                                                  <td>{{ $offer->customer->name }}</td>
-                                                  <td>{{ $offer->business->code }}</td>
-                                                  <td>
-                                                       @if( $offer->is_approved == true )
+                                                       @if( $business_review->is_approved == true )
                                                             <span class="badge badge-success">Approved</span>
                                                        @else
                                                             <span class="badge badge-danger">Not Approved</span>
                                                        @endif
                                                   </td>
                                                   <td>
-                                                       @if( $offer->is_active == true )
-                                                            <span class="badge badge-success">Active</span>
+                                                       @if( $business_review->is_shown == true )
+                                                            <span class="badge badge-success">Shown</span>
                                                        @else
-                                                            <span class="badge badge-danger">Not Active</span>
+                                                            <span class="badge badge-danger">Not Shown</span>
                                                        @endif
                                                   </td>
                                                   <td>
                                                        <div class="dropdown">
-                                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdown-{{ $offer->id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdown-{{ $business_review->id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                                  Action
                                                             </button>
-                                                            <div class="dropdown-menu" aria-labelledby="dropdown-{{ $offer->id }}">
-                                        
-                                                                 @if( can("edit_offer") )
-                                                                 <a class="dropdown-item" href="#" data-content="{{ route('offer.edit.modal', encrypt($offer->id)) }}" data-target="#myModal" class="btn btn-outline-dark" data-toggle="modal">
-                                                                      <i class="fas fa-edit"></i>
-                                                                      Edit
-                                                                 </a>
-                                                                 @endif
+                                                            <div class="dropdown-menu" aria-labelledby="dropdown-{{ $business_review->id }}">
 
-                                                                 @if( can("delete_offer") )
-                                                                 <a class="dropdown-item" href="#" data-content="{{ route('offer.delete.modal', encrypt($offer->id)) }}" data-target="#myModal" class="btn btn-outline-dark" data-toggle="modal">
-                                                                      <i class="fas fa-trash"></i>
-                                                                      Delete
-                                                                 </a>
-                                                                 @endif
-
-                                                                 @if( can("view_offer") )
-                                                                 <a class="dropdown-item" href="#" data-content="{{ route('offer.view.modal', encrypt($offer->id)) }}" data-target="#myModal" class="btn btn-outline-dark" data-toggle="modal">
+                                                                 @if( can("view_business_review") )
+                                                                 <a class="dropdown-item" href="#" data-content="{{ route('business.review.view', encrypt($business_review->id)) }}" data-target="#myModal" class="btn btn-outline-dark" data-toggle="modal">
                                                                       <i class="fas fa-eye"></i>
                                                                       View
+                                                                 </a>
+                                                                 @endif
+
+                                                                 @if( can("delete_business_review") )
+                                                                 <a class="dropdown-item" href="#" data-content="{{ route('business.review.delete.modal', encrypt($business_review->id)) }}" data-target="#myModal" class="btn btn-outline-dark" data-toggle="modal">
+                                                                      <i class="fas fa-trash"></i>
+                                                                      Delete
                                                                  </a>
                                                                  @endif
                                         
                                                             </div>
                                                        </div>
                                                   </td>
-                                             </tr>   
+                                             </tr>
                                              @empty
                                              <tr>
                                                   <td colspan="8" class="text-center">
@@ -149,7 +140,7 @@
                                              @endforelse
                                         </tbody>
                                         <tfoot>
-                                             {{ $offers->links() }}
+                                             {{ $business_reviews->links() }}
                                         </tfoot>
                                    </table>
                               </div>

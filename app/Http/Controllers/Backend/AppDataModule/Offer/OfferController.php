@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backend\AppDataModule\Offer;
 
 use App\Http\Controllers\Controller;
-use App\Models\AppDatamodule\Offer;
+use App\Models\AppDataModule\Offer;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
