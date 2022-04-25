@@ -7,6 +7,33 @@
     <title>Admin Panel</title>
 
     @include("backend.includes.css")
+
+    <style>
+         .custom-alert{
+            position: fixed;
+            left: 50%;
+            top: 1%;
+            width: 30%;
+            transform: translateX(-50%);
+            min-height: max-content;
+            z-index: 99999;
+            background: white;
+            border-radius: 5px;
+            border: 1px solid #d1d1d1;
+            box-shadow: black 1px 1px 4px -1px;
+            padding: 25px 15px;
+        }
+        .custom-alert .logo img{
+            width: 60%;
+            display: block;
+            margin: 0 auto;
+        }
+        .custom-alert p{
+            text-align: center;
+            margin-top: 15px;
+        }
+    </style>
+
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -25,27 +52,21 @@
         @yield('body-content')
         <!-- /.content-wrapper -->
 
-        @if( session()->has('warning') )
-        <div class="alert alert-warning alert-dismissible fade show custom-alert" role="alert">
-            {{ session()->get('warning') }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        @endif
-
-        @if( session()->has('success') )
-        <div class="alert alert-success alert-dismissible fade show custom-alert" role="alert">
-            {{ session()->get('success') }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        @endif
-
-        @if( session()->has('error') )
-        <div class="alert alert-danger alert-dismissible fade show custom-alert" role="alert">
-            {{ session()->get('error') }}
+        @if( session()->has('success') || session()->has('warning') || session()->has('error') )
+        <div class="alert alert-dismissible fade show custom-alert" role="alert">
+            <div class="logo">
+                <img src="{{ asset('images/info/'. $app_info->logo) }}" class="img-fluid" alt="logo">
+            </div>
+            <hr>
+            <p>
+                @if( session()->get('success') )
+                        {{ session()->get('success') }}
+                @elseif(  session()->get('warning') )
+                        {{ session()->get('warning') }}
+                @elseif(  session()->get('error') )
+                        {{ session()->get('error') }}
+                @endif
+            </p>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>

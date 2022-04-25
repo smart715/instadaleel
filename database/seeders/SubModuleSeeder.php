@@ -117,6 +117,14 @@ class SubModuleSeeder extends Seeder
                 'route' => 'business.all',
                 'module_id' => 3,
             ],
+            [
+                'id' => 13,
+                'name' => 'All Offer',
+                'key' => 'all_offer',
+                'position' => 8,
+                'route' => 'offer.all',
+                'module_id' => 3,
+            ],
             //module id 3 end
             
 
@@ -135,6 +143,6 @@ class SubModuleSeeder extends Seeder
         
         ]);
 
-        //last id 11
+        //last id 13
     }
 }

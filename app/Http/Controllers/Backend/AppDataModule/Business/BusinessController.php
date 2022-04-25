@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class BusinessController extends Controller
@@ -90,6 +91,16 @@ class BusinessController extends Controller
                         $business->status = $request->status;
 
                         if( $business->save() ){
+
+                            if( $request->send_email == '1' ){
+                                $email = $business->customer->email;
+                                Mail::send('backend.modules.app_data_module.business.emails.notify', [ 'business' => $business ], function ($message) use ($email, $business) {
+                                    $message->from(mail_from());
+                                    $message->to($email);
+                                    $message->subject('Business Status Updated ( ' . $business->code . ' )');
+                                });
+                            }
+
                             return response()->json([
                                 'status' => 'success',
                                 'location_reload' => 'Business updated'
@@ -157,6 +168,13 @@ class BusinessController extends Controller
                     }
 
                     if( $business->delete() ){
+                        $email = $business->customer->email;
+                        Mail::send('backend.modules.app_data_module.business.emails.delete', [ 'business' => $business ], function ($message) use ($email,$business) {
+                            $message->from(mail_from());
+                            $message->to($email);
+                            $message->subject('Business Deleted ( ' . $business->code . ' )');
+                        });
+
                         return response()->json([
                             'status' => 'success',
                             'location_reload' => 'Business deleted'

@@ -288,6 +288,30 @@ class PermissionSedder extends Seeder
                 'display_name' => '-- Delete Business',
                 'module_id' => 3,
             ],
+            [
+                'id' => 47,
+                'key' => 'all_offer',
+                'display_name' => 'All Offer',
+                'module_id' => 3,
+            ],
+            [
+                'id' => 48,
+                'key' => 'edit_offer',
+                'display_name' => '-- Edit Offer',
+                'module_id' => 3,
+            ],
+            [
+                'id' => 49,
+                'key' => 'view_offer',
+                'display_name' => '-- View Offer',
+                'module_id' => 3,
+            ],
+            [
+                'id' => 50,
+                'key' => 'delete_offer',
+                'display_name' => '-- Delete Offer',
+                'module_id' => 3,
+            ],
         ]);
 
     }
