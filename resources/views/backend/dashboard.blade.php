@@ -108,13 +108,28 @@
 
             <div class="row charts" style="padding-right: 15px;">
 
-                <div class="col-md-6 mb-5" id="post-history-chart">
-                    <p>Post Last 6 Month</p>
+                <div class="col-md-6 mb-5">
+                    <div class="card">
+                        <div class="card-header">
+                            <p>Post Last 6 Month</p>
+                        </div>
+                        <div class="card-body" id="post-history-chart">
+                            
+                        </div>
+                    </div>
                 </div>
 
-                <div class="col-md-6 mb-5" id="business-history-chart">
-                    <p>Business Last 6 Month</p>
+                <div class="col-md-6 mb-5">
+                    <div class="card">
+                        <div class="card-header">
+                            <p>Business Last 6 Month</p>
+                        </div>
+                        <div class="card-body" id="business-history-chart">
+                            
+                        </div>
+                    </div>
                 </div>
+                
 
             </div>
 

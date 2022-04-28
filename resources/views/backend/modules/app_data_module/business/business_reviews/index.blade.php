@@ -68,7 +68,10 @@
                                              <div class="col-md-4">
                                                   <button type="submit" class="btn btn-success mt-4">
                                                        Search
-                                                  </button>                                  
+                                                  </button>    
+                                                  <a href="{{ route('business.view.review.all',encrypt($business->id)) }}" class="btn btn-danger mt-4">
+                                                       Refresh
+                                                  </a>                                  
                                              </div>
                                         </div>
                                    </form>

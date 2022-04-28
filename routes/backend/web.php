@@ -66,6 +66,12 @@ Route::group(['prefix' => 'admindashboard', 'middleware' => 'auth'], function ()
     });
     //community module routes end
 
+    //customer module routes start
+    Route::group(['prefix' => 'customer-module'], function () {
+        require_once 'customer_module/customer.php';
+    });
+    //customer module routes end
+
     //settings module routes start
     Route::group(['prefix' => 'settings-module'], function () {
         require_once 'settings_module/app_info.php';

@@ -324,6 +324,42 @@ class PermissionSedder extends Seeder
                 'display_name' => '-- Delete Offer',
                 'module_id' => 3,
             ],
+            [
+                'id' => 53,
+                'key' => 'customer_module',
+                'display_name' => 'Customer Module',
+                'module_id' => 5,
+            ],
+            [
+                'id' => 54,
+                'key' => 'all_customer',
+                'display_name' => 'All Customer',
+                'module_id' => 5,
+            ],
+            [
+                'id' => 55,
+                'key' => 'add_customer',
+                'display_name' => '-- Add Customer',
+                'module_id' => 5,
+            ],
+            [
+                'id' => 57,
+                'key' => 'view_customer',
+                'display_name' => '-- View Customer',
+                'module_id' => 5,
+            ],
+            [
+                'id' => 58,
+                'key' => 'delete_customer',
+                'display_name' => '-- Delete Customer',
+                'module_id' => 5,
+            ],
+            [
+                'id' => 59,
+                'key' => 'reset_customer_password',
+                'display_name' => '-- Reset Customer Password',
+                'module_id' => 5,
+            ],
         ]);
 
     }
