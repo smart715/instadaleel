@@ -16,6 +16,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\AppDataModule\Event\EventResource;
 
 class ApiController extends Controller
 {
@@ -116,7 +117,43 @@ class ApiController extends Controller
         }
     }
     //get_event function end
+    
+    
+    //event_details function start
+    public function event_details(Request $request){
+        try{
+    
+            $validator = Validator::make($request->all(), [
+                "customer_id" => "required|integer|exists:customers,id",
+                "event_id" => "required|integer|exists:events,id",
+            ]);
 
+            if( $validator->fails() ){
+                return response()->json([
+                    'status' => 'error',
+                    'data' =>$validator->errors()
+                ],200);
+            }
+            else{
+                
+                $event = Event::where("is_active", true)->where('id',$request->event_id)->first();
+    
+                return response()->json([
+                    'status' => 'success',
+                    'data' => new EventResource($event)
+                ],200);
+                
+            }
+            
+        }
+        catch( Exception $e ){
+            return response()->json([
+                'status' => 'error',
+                'data' => $e->getMessage()
+            ],200);
+        }
+    }
+    //event_details function end
 
     //get_package function start
     public function get_package(){

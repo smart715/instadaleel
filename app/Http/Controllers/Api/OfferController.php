@@ -15,6 +15,11 @@ use Illuminate\Support\Str;
 class OfferController extends Controller
 {
     
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['get_offer']]);
+    }
+    
     //add_offer function start
     public function add_offer(Request $request){
         try{

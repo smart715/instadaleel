@@ -21,7 +21,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'me', 'register', 'logout','verify','get_code']]);
+        $this->middleware('auth:api', ['except' => ['login', 'me', 'register', 'logout','verify','get_code', 'update_profile', 'resend_code', 'change_password', 'manage_session']]);
     }
 
 
@@ -70,7 +70,7 @@ class AuthController extends Controller
                         $customer->year  = Carbon::now()->year;
     
                         $customer->is_active = true;
-                        $customer->is_otp_verified = false;
+                        $customer->is_otp_verified = true;
     
                         if( $customer->save() ){
                             $customer = DB::select(DB::raw("SELECT * FROM customers WHERE id = $customer->id"))[0];
@@ -440,6 +440,7 @@ class AuthController extends Controller
                     "name" => "required",
                     "email" => "required|unique:customers,email,".$customer->id,
                     "address" => "required",
+                    "gender" => "in:Male,Female,Other"
                 ]);
     
                 if( $validator->fails() ){

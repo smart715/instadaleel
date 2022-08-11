@@ -40,6 +40,8 @@ Route::group(['prefix' => 'auth'], function () {
 
 });
 
+//change password
+Route::post('change-password', [AuthController::class, 'change_password']);
 
 Route::group(['middleware' => 'user_active'], function () {
 
@@ -81,9 +83,6 @@ Route::group(['middleware' => 'user_active'], function () {
 	//profile update
 	Route::post('update-profile', [AuthController::class, 'update_profile']);
 
-	//change password
-	Route::post('change-password', [AuthController::class, 'change_password']);
-
 	//manage session
 	Route::post('manage-session', [AuthController::class, 'manage_session']);
 
@@ -102,6 +101,9 @@ Route::group(['middleware' => 'user_active'], function () {
 
 	//get event
 	Route::get("get-event",[ApiController::class,"get_event"]);
+	
+	//event details
+	Route::get("event-details",[ApiController::class,"event_details"]);
 
 	//delete event
 	Route::post("delete-event",[ApiController::class,"delete_event"]);
@@ -140,6 +142,9 @@ Route::group(['middleware' => 'user_active'], function () {
 
 	//get post
 	Route::get("get-post",[PostController::class,"get_post"]);
+	
+	//post-details
+	Route::get("post-details",[PostController::class,"get_post_details"]);
 
 	//post like
 	Route::post("post-like",[PostController::class,"post_like"]);

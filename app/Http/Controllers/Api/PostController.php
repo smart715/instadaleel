@@ -51,7 +51,9 @@ class PostController extends Controller
                 if( $request['images'] ){
                     $i = 1;
                     foreach( $request['images'] as $image ){
+                        
                         $img = time().Str::random(12).'.'.$image->getClientOriginalExtension();
+
 
                         $location = public_path('images/post/'.$img);
                         Image::make($image)->save($location);
@@ -61,12 +63,15 @@ class PostController extends Controller
                         ]);
                         $i++;
                     }
+                    
+                    
                     $post->image = json_encode($data);
                 }
                 else{
                     $post->image = null;
                 }
                 //image insert end
+                
 
                 if( $post->save() ){
                     return response()->json([
@@ -304,6 +309,49 @@ class PostController extends Controller
         }
     }
     //get_post function end
+    
+    
+    //get_post_details function start
+    public function get_post_details(Request $request){
+        try{
+            $validator = Validator::make($request->all(), [
+                "customer_id" => "required|integer|exists:customers,id",
+                "post_id" => "required|integer|exists:posts,id",
+            ]);
+
+            if( $validator->fails() ){
+                return response()->json([
+                    'status' => 'error',
+                    'data' =>$validator->errors()
+                ],200);
+            }
+            else{
+                
+                $post = Post::where("customer_id", $request->customer_id)
+                                    ->where("id", $request->post_id)
+                                    ->where("is_approved", true)
+                                    ->where("is_shown", true)
+                                    ->select("customer_id","image","description","total_like","total_comment","id","created_at")
+                                    ->with('customer_data')
+                                    ->orderBy("id","desc")
+                                    ->first();
+
+                return response()->json([
+                    'status' => 'success',
+                    'data' => $post
+                ],200);
+
+            }
+
+        }
+        catch( Exception $e ){
+            return response()->json([
+                'status' => 'error',
+                'data' => $e->getMessage()
+            ],200);
+        }
+    }
+    //get_post_details function end
 
 
     //latest_post function start
