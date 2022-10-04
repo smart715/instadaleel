@@ -15,13 +15,13 @@ use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-
+use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'me', 'register', 'logout','verify','get_code', 'update_profile', 'resend_code', 'change_password', 'manage_session']]);
+        $this->middleware('auth:api', ['except' => ['login', 'me', 'register', 'logout','verify','get_code', 'get_profile','update_profile', 'resend_code', 'change_password', 'manage_session']]);
     }
 
 
@@ -61,7 +61,7 @@ class AuthController extends Controller
                     
                     // if( isset($response['messages'][0]['status']) ){
                         $customer = new Customer();
-                        $customer->name = $request->name;
+                        $customer->firstname = $request->name;
                         $customer->phone = $request->phone;
                         $customer->email = $request->email;
                         $customer->password = Hash::make($request->password);
@@ -429,18 +429,54 @@ class AuthController extends Controller
     }
     //manage_session function end
 
+    //get_profile function start
+    public function get_profile(){
+        try{
+            $user_id = Auth::user()->id;
+            $customer = Customer::find($user_id);
+            if( $customer ){
+                return response()->json([
+                    'status' => 'success',
+                    'data' => new CustomerResource($customer)
+                ],200); 
+            }else{            
+                return response()->json([
+                    'status' => 'warning',
+                    'message' => 'No user',
+                    'data' => NULL,
+                ],200);
+            }
+            
+        }
+        catch( Exception $e ){
+            return response()->json([
+                'status' => 'error',
+                'data' => $e->getMessage()
+            ],200);
+        }
+
+    }
+    //get_profile function end
 
     //update_profile function start
     public function update_profile(Request $request){
         try{
-            $customer = Customer::find($request->customer_id);
+            $user_id = Auth::user()->id;
+            $customer = Customer::find($user_id);
 
             if( $customer ){
                 $validator = Validator::make($request->all(),[
-                    "name" => "required",
+                    'firstname' => ['required', 'string', 'max:255'],
+                    'lastname' => ['required', 'string', 'max:255'],
+                    'nickname' => ['required', 'string', 'max:255'],
+                    'nationality' => ['required', 'string', 'max:255'],
+                    'address' => ['required', 'string', 'max:255'],
+                    "phone" => "required|unique:customers,phone,".$customer->id,
                     "email" => "required|unique:customers,email,".$customer->id,
-                    "address" => "required",
-                    "gender" => "in:Male,Female,Other"
+                    'birthday' => ['required', 'string', 'max:255'],
+                    "gender" => "in:Male,Female,Other",
+                    "marital_status" => "in:Married,Single",
+                    "occupation" => "in:Business,Service,Other",
                 ]);
     
                 if( $validator->fails() ){
@@ -450,14 +486,20 @@ class AuthController extends Controller
                     ],200);
                 }
                 else{
-                    $customer->name = $request->name;
-                    $customer->email = $request->email;
+                    $customer->firstname = $request->firstname;
+                    $customer->lastname = $request->lastname;
+                    $customer->nickname = $request->nickname;
+                    $customer->nationality = $request->nationality;
                     $customer->address = $request->address;
+                    $customer->phone = $request->phone;
+                    $customer->email = $request->email;
+                    $customer->birthday = $request->birthday;
                     $customer->gender = $request->gender;
-                    $customer->about = $request->about;
+                    $customer->marital_status = $request->marital_status;
                     $customer->occupation = $request->occupation;
-                    $customer->latitude = $request->latitude;
-                    $customer->longitude = $request->longitude;
+
+                    // $customer->latitude = $request->latitude;
+                    // $customer->longitude = $request->longitude;
 
                     // image upload 
                     if( $request->image ){

@@ -14,47 +14,47 @@ use Illuminate\Support\Facades\Validator;
 class CustomerController extends Controller
 {
     //index function start
-    public function index(Request $request){
-        try{    
-            if( can("all_customer") ){
+    public function index(Request $request)
+    {
+        try {
+            if (can("all_customer")) {
 
                 $search = $request->search;
                 $is_otp_verified = $request->is_otp_verified;
                 $is_active = $request->is_active;
 
-                $query = Customer::orderBy("id","desc")->select("id","name","image","phone","email","is_otp_verified","is_active","last_active");
+                $query = Customer::orderBy("id", "desc")->select("id", "firstname", "lastname", "image", "phone", "email", "is_otp_verified", "is_active", "last_active");
 
-                if( $search ){
-                    $query->where("name","LIKE","%$search%")
-                        ->orWhere("email","LIKE","%$search%")
-                        ->orWhere("phone","LIKE","%$search%")
-                        ->orWhere("occupation","LIKE","%$search%");
+                if ($search) {
+                    $query->where("firstname", "LIKE", "%$search%")
+                        ->orWhere("lastname", "LIKE", "%$search%")
+                        ->orWhere("email", "LIKE", "%$search%")
+                        ->orWhere("phone", "LIKE", "%$search%")
+                        ->orWhere("occupation", "LIKE", "%$search%");
                 }
 
-                
-                if( $is_otp_verified == "1" ){
+
+                if ($is_otp_verified == "1") {
                     $query->where("is_otp_verified", true)->get();
                 }
-                if( $is_otp_verified == "0" ){
+                if ($is_otp_verified == "0") {
                     $query->where("is_otp_verified", false)->get();
                 }
-                
-                if( $is_active == "1" ){
+
+                if ($is_active == "1") {
                     $query->where("is_active", true);
                 }
-                if( $is_active == "0" ){
+                if ($is_active == "0") {
                     $query->where("is_active", false);
                 }
 
                 $customers = $query->paginate(10);
 
-                return view("backend.modules.customer_module.customer.index", compact("customers","search","is_otp_verified","is_active"));
-            }
-            else{
+                return view("backend.modules.customer_module.customer.index", compact("customers", "search", "is_otp_verified", "is_active"));
+            } else {
                 return view("errors.403");
             }
-        }
-        catch( Exception $e ){
+        } catch (Exception $e) {
             return back()->with('warning', $e->getMessage());
         }
     }
@@ -62,24 +62,22 @@ class CustomerController extends Controller
 
 
     //view_modal function start
-    public function view_modal($id){
-        try{
-            if( can("view_customer") ){
+    public function view_modal($id)
+    {
+        try {
+            if (can("view_customer")) {
                 $id = decrypt($id);
-                $customer = Customer::where("id",$id)->first();
+                $customer = Customer::where("id", $id)->first();
 
-                if( $customer ){
+                if ($customer) {
                     return view("backend.modules.customer_module.customer.modals.view", compact("customer"));
-                }
-                else{
+                } else {
                     return "No customer found";
                 }
-            }
-            else{
+            } else {
                 return unauthorized();
             }
-        }
-        catch( Exception $e ){
+        } catch (Exception $e) {
             return $e->getMessage();
         }
     }
@@ -87,16 +85,15 @@ class CustomerController extends Controller
 
 
     //add_modal function start
-    public function add_modal(){
-        try{
-            if( can("add_customer") ){
+    public function add_modal()
+    {
+        try {
+            if (can("add_customer")) {
                 return view("backend.modules.customer_module.customer.modals.add");
-            }
-            else{
+            } else {
                 return unauthorized();
             }
-        }
-        catch( Exception $e ){
+        } catch (Exception $e) {
             return $e->getMessage();
         }
     }
@@ -104,25 +101,27 @@ class CustomerController extends Controller
 
 
     //add function start
-    public function add(Request $request){
-        try{
-            if( can("add_customer") ){
-                $validator = Validator::make($request->all(),[
-                    "name"       => "required",
+    public function add(Request $request)
+    {
+        try {
+            if (can("add_customer")) {
+                $validator = Validator::make($request->all(), [
+                    "firstname"       => "required",
+                    "lastname"       => "required",
                     "phone"      => "required|unique:customers,phone",
                     "email"      => "required|email|unique:customers,email",
                     "password"   => "required|min:6|confirmed",
                 ]);
-    
-                if( $validator->fails() ){
+
+                if ($validator->fails()) {
                     return response()->json([
                         'status' => 'error',
                         'data' => $validator->errors()
-                    ],200); 
-                }
-                else{
+                    ], 200);
+                } else {
                     $customer = new Customer();
-                    $customer->name = $request->name;
+                    $customer->firstname = $request->firstname;
+                    $customer->lastname = $request->lastname;
                     $customer->phone = $request->phone;
                     $customer->email = $request->email;
                     $customer->password = Hash::make($request->password);
@@ -132,48 +131,44 @@ class CustomerController extends Controller
                     $customer->is_active = true;
                     $customer->is_otp_verified = true;
 
-                    if( $customer->save() ){
+                    if ($customer->save()) {
                         return response()->json([
                             'status' => 'success',
                             'location_reload' => 'New Customer Added',
-                        ],200); 
+                        ], 200);
                     }
                 }
-            }
-            else{
+            } else {
                 return response()->json([
                     'warning' => unauthorized()
-                ],200);
+                ], 200);
             }
-        }
-        catch( Exception $e ){
+        } catch (Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()
-            ],200);
+            ], 200);
         }
     }
     //add function end
 
 
     //delete_modal function start
-    public function delete_modal($id){
-        try{
-            if( can("delete_customer") ){
+    public function delete_modal($id)
+    {
+        try {
+            if (can("delete_customer")) {
                 $id = decrypt($id);
-                $customer = Customer::where("id",$id)->first();
+                $customer = Customer::where("id", $id)->first();
 
-                if( $customer ){
+                if ($customer) {
                     return view("backend.modules.customer_module.customer.modals.delete", compact("customer"));
-                }
-                else{
+                } else {
                     return "No customer found";
                 }
-            }
-            else{
+            } else {
                 return unauthorized();
             }
-        }
-        catch( Exception $e ){
+        } catch (Exception $e) {
             return $e->getMessage();
         }
     }
@@ -181,41 +176,38 @@ class CustomerController extends Controller
 
 
     //delete function start
-    public function delete($id){
-        try{
-            if( can("delete_customer") ){
+    public function delete($id)
+    {
+        try {
+            if (can("delete_customer")) {
                 $id = decrypt($id);
-                $customer = Customer::where("id",$id)->first();
+                $customer = Customer::where("id", $id)->first();
 
-                if( $customer ){
-                    if( File::exists('images/customer/'. $customer->image) ){
-                        File::delete('images/customer/'. $customer->image);
+                if ($customer) {
+                    if (File::exists('images/customer/' . $customer->image)) {
+                        File::delete('images/customer/' . $customer->image);
                     }
 
-                    if( $customer->delete() ){
+                    if ($customer->delete()) {
                         return response()->json([
                             "status" => "success",
                             "location_reload" => "Customer Deleted"
-                        ],200);
+                        ], 200);
                     }
-
-                }
-                else{
+                } else {
                     return response()->json([
                         "warning" => "No customer found"
-                    ],200);
+                    ], 200);
                 }
-            }
-            else{
+            } else {
                 return response()->json([
                     'warning' => unauthorized()
-                ],200);
+                ], 200);
             }
-        }
-        catch( Exception $e ){
+        } catch (Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()
-            ],200);
+            ], 200);
         }
     }
     //delete function end

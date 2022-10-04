@@ -13,8 +13,13 @@
 
                <!-- Name -->
                <div class="col-md-12 col-12 form-group">
-                    <label>Name</label><span class="require-span">*</span>
-                    <input type="text" class="form-control" name="name">
+                    <label>First Name</label><span class="require-span">*</span>
+                    <input type="text" class="form-control" name="firstname">
+               </div>
+               <!-- Name -->
+               <div class="col-md-12 col-12 form-group">
+                    <label>Last Name</label><span class="require-span">*</span>
+                    <input type="text" class="form-control" name="lastname">
                </div>
 
                <!-- Phone -->

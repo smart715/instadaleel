@@ -45,7 +45,9 @@ Route::post('change-password', [AuthController::class, 'change_password']);
 
 Route::group(['middleware' => 'user_active'], function () {
 
-
+	Route::get('get-profile', [AuthController::class, 'get_profile']);
+	//profile update
+	Route::post('update-profile', [AuthController::class, 'update_profile']);
 	//banner
 	Route::get("get-banners",[ApiController::class,"get_banner"]);
 
@@ -67,37 +69,8 @@ Route::group(['middleware' => 'user_active'], function () {
 	//get favorite
 	Route::get("get-favorite",[ApiController::class,"get_favorite"]);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-	//profile update
-	Route::post('update-profile', [AuthController::class, 'update_profile']);
-
 	//manage session
 	Route::post('manage-session', [AuthController::class, 'manage_session']);
-
-
-
-
-
-
-
-
-
-
-
-
-	
 
 	//get event
 	Route::get("get-event",[ApiController::class,"get_event"]);
@@ -107,26 +80,6 @@ Route::group(['middleware' => 'user_active'], function () {
 
 	//delete event
 	Route::post("delete-event",[ApiController::class,"delete_event"]);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	//add post
 	Route::post("add-post",[PostController::class,"add_post"]);
@@ -158,24 +111,6 @@ Route::group(['middleware' => 'user_active'], function () {
 	//latest post
 	Route::get("latest-post",[PostController::class,"latest_post"]);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	//get package
 	Route::get("get-package",[ApiController::class,"get_package"]);
 
@@ -205,14 +140,6 @@ Route::group(['middleware' => 'user_active'], function () {
 
 	//delete business
 	Route::post("delete-business",[BusinessController::class,"delete_business"]);
-
-
-
-
-
-
-
-
 
 	//add offer
 	Route::post("add-offer",[OfferController::class,"add_offer"]);

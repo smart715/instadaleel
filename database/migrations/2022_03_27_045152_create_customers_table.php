@@ -15,8 +15,11 @@ class CreateCustomersTable extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
-
-            $table->string("name");
+     
+            $table->string('firstname')->nullable();
+            $table->string('lastname')->nullable();
+            $table->string('nickname')->nullable();
+            $table->string("name")->nullable();
             $table->string("image")->nullable();
             $table->string("email")->unique();
             $table->string("phone")->unique();
@@ -24,7 +27,11 @@ class CreateCustomersTable extends Migration
             $table->string("about")->nullable();
             $table->string("occupation")->nullable();
             $table->string("password");
-            $table->string("address")->nullable();
+            $table->string("address")->nullable();       
+            $table->string('nationality')->nullable();
+            $table->enum("marital_status",["Married","Single"]);
+            $table->date('birthday')->nullable();
+
             $table->string("latitude")->nullable();
             $table->string("longitude")->nullable();
             $table->boolean("is_otp_verified")->default(false);

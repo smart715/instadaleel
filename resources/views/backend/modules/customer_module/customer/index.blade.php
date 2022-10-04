@@ -87,7 +87,8 @@
                                                        <tr>
                                                             <td>SI</td>
                                                             <td>Image</td>
-                                                            <td>Name</td>
+                                                            <td>First Name</td>
+                                                            <td>Last Name</td>
                                                             <td>Phone</td>
                                                             <td>Email</td>
                                                             <td>Otp Verified</td>
@@ -110,7 +111,8 @@
                                                                       <img src="{{ asset('images/profile/user.png') }}" width="50px" alt="">
                                                                  @endif
                                                             </td>
-                                                            <td>{{ $customer->name }}</td>
+                                                            <td>{{ $customer->firstname }}</td>
+                                                            <td>{{ $customer->lastname }}</td>
                                                             <td>{{ $customer->phone }}</td>
                                                             <td>{{ $customer->email }}</td>
                                                             <td>

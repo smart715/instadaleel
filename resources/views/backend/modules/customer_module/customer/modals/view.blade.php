@@ -23,8 +23,16 @@
                               </td>
                          </tr>
                          <tr>
-                              <td>Name</td>
-                              <td>{{ $customer->name }}</td>
+                              <td>First Name</td>
+                              <td>{{ $customer->firstname }}</td>
+                         </tr>
+                         <tr>
+                              <td>Last Name</td>
+                              <td>{{ $customer->lastname }}</td>
+                         </tr>
+                         <tr>
+                              <td>Nick Name</td>
+                              <td>{{ $customer->nickname }}</td>
                          </tr>
                          <tr>
                               <td>Email</td>
@@ -35,6 +43,18 @@
                               <td>{{ $customer->phone }}</td>
                          </tr>
                          <tr>
+                              <td>Nationality</td>
+                              <td>{{ $customer->nationality ?? 'N/A' }}</td>
+                         </tr>
+                         <tr>
+                              <td>Address</td>
+                              <td>{{ $customer->address ?? 'N/A' }}</td>
+                         </tr>
+                         <tr>
+                              <td>Birthday</td>
+                              <td>{{ $customer->birthday ?? 'N/A' }}</td>
+                         </tr>
+                         <tr>
                               <td>Gender</td>
                               <td>{{ $customer->gender }}</td>
                          </tr>
@@ -43,12 +63,8 @@
                               <td>{{ $customer->occupation ?? 'N/A' }}</td>
                          </tr>
                          <tr>
-                              <td>About</td>
-                              <td>{{ $customer->about ?? 'N/A' }}</td>
-                         </tr>
-                         <tr>
-                              <td>Address</td>
-                              <td>{{ $customer->address ?? 'N/A' }}</td>
+                              <td>Marital status</td>
+                              <td>{{ $customer->marital_status ?? 'N/A' }}</td>
                          </tr>
                          <tr>
                               <td>OTP Verified</td>
