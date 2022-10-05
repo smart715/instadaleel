@@ -473,7 +473,7 @@ class AuthController extends Controller
                     'address' => ['required', 'string', 'max:255'],
                     "phone" => "required|unique:customers,phone,".$customer->id,
                     "email" => "required|unique:customers,email,".$customer->id,
-                    'birthday' => ['required', 'string', 'max:255'],
+                    'birthday' => ['required'],
                     "gender" => "in:Male,Female,Other",
                     "marital_status" => "in:Married,Single",
                     "occupation" => "in:Business,Service,Other",
@@ -493,7 +493,7 @@ class AuthController extends Controller
                     $customer->address = $request->address;
                     $customer->phone = $request->phone;
                     $customer->email = $request->email;
-                    $customer->birthday = $request->birthday;
+                    $customer->birthday = date('Y-m-d', strtotime($request->birthday));
                     $customer->gender = $request->gender;
                     $customer->marital_status = $request->marital_status;
                     $customer->occupation = $request->occupation;
