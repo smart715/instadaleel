@@ -406,7 +406,7 @@ class AuthController extends Controller
         try {
             $customer_id = Auth::user()->id;
             $customer = Customer::find($customer_id);
-            $history = History::where('customer_id',$customer_id)->orderby('created_at','DESC')->get();
+            $history = History::where('customer_id',$customer_id)->orderby('created_at','DESC')->limit(4)->get();
             if ($history) {
                 return response()->json([
                     'status' => 'success',
