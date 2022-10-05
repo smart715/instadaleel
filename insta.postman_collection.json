@@ -1,0 +1,243 @@
+{
+	"info": {
+		"_postman_id": "1e8cfc08-81ca-4c0b-bc7e-ddafe510ea86",
+		"name": "insta",
+		"description": "# Introduction\nWhat does your API do?\n\n# Overview\nThings that the developers should know about\n\n# Authentication\nWhat is the preferred way of using the API?\n\n# Error Codes\nWhat errors and status codes can a user expect?\n\n# Rate limit\nIs there a limit to the number of requests an user can send?",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20591094"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Registration",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Tester",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "tessdt@test.com",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "1234567890",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "text"
+								},
+								{
+									"key": "password_confirmation",
+									"value": "123456",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "phone",
+									"value": "1234567890",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Profile",
+			"item": [
+				{
+					"name": "get-profile",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/get-profile",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"get-profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-profile",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "firstname",
+									"value": "Tester",
+									"type": "text"
+								},
+								{
+									"key": "lastname",
+									"value": "aa",
+									"type": "text"
+								},
+								{
+									"key": "nickname",
+									"value": "asd",
+									"type": "text"
+								},
+								{
+									"key": "nationality",
+									"value": "asfasd",
+									"type": "text"
+								},
+								{
+									"key": "address",
+									"value": "asfasd",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "1234567890",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "abddcd@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "birthday",
+									"value": "275788653221198",
+									"type": "text"
+								},
+								{
+									"key": "gender",
+									"value": "Male",
+									"type": "text"
+								},
+								{
+									"key": "marital_status",
+									"value": "Married",
+									"type": "text"
+								},
+								{
+									"key": "occupation",
+									"value": "Business",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/update-profile",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"update-profile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{authBearer}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.request.headers.add({key: 'Accept', value: 'application/json' });"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "authBearer",
+			"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXJhdmVsLnRlc3RcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2NjQ4NjE5MjMsImV4cCI6MTY2NTQ2NjcyMywibmJmIjoxNjY0ODYxOTIzLCJqdGkiOiJ4alRZZmw0ODhPcnlwSmxXIiwic3ViIjoyMCwicHJ2IjoiODNkNmM2MGNkOWFjMWU3YzQxZjljNTE0YzFjNDlmYzI1NzA3NjFlYiJ9.GU6FCqeUlwwlC8keUnGoB30KTU7CNveE8Z48Ls6UKQ",
+			"type": "string"
+		},
+		{
+			"key": "apiKey",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "baseUrl",
+			"value": "laravel.test/api",
+			"type": "string"
+		}
+	]
+}

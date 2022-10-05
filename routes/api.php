@@ -48,6 +48,7 @@ Route::group(['middleware' => 'user_active'], function () {
 	Route::get('get-profile', [AuthController::class, 'get_profile']);
 	//profile update
 	Route::post('update-profile', [AuthController::class, 'update_profile']);
+	Route::get('get-history', [AuthController::class, 'get_history']);
 	//banner
 	Route::get("get-banners",[ApiController::class,"get_banner"]);
 
