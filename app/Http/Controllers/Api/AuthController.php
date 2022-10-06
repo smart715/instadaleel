@@ -407,19 +407,26 @@ class AuthController extends Controller
         try {
             $customer_id = Auth::user()->id;
             $customer = Customer::find($customer_id);
-            $history = History::where('customer_id',$customer_id)->orderby('created_at','DESC')->limit(4)->get();
-            if ($history) {
-                return response()->json([
-                    'status' => 'success',
-                    'data' => $history
-                ], 200);
-            } else {
-                return response()->json([
-                    'status' => 'success',
-                    'message' => 'No history',
-                    'data' => NULL,
-                ], 200);
+
+            $history = array();
+            $note = array("Registration", "Comments", "Review", "Post");
+            $id=0;
+            foreach ($note as $one) {
+                $id++;
+                $history1 = array();
+                $history1['id'] = $id;
+                $history1['customer_id'] = $customer_id;
+                $history1['note'] = $one;
+                $history1['amount'] = intval(History::where('customer_id', $customer_id)->where("note", $one)->sum("amount"));
+                $history[] = $history1;
             }
+
+            return response()->json([
+                'status' => 'success',
+                'data' => $history
+            ], 200);
+
+
         } catch (Exception $e) {
             return response()->json([
                 'status' => 'error',

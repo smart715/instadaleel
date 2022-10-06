@@ -9,6 +9,8 @@ use App\Http\Resources\CommunityModule\PostComment\PostCommentResource;
 use App\Models\CommunityModule\CommentLike;
 use App\Models\CommunityModule\Post;
 use App\Models\CommunityModule\PostLikeComment;
+use App\Models\CustomerModule\History;
+use App\Models\SettingsModule\Coins;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -73,7 +75,14 @@ class PostController extends Controller
                 //image insert end
                 
 
-                if( $post->save() ){
+                if( $post->save() ){                    
+                    $coin = Coins::where('id',5)->first()->amount;
+                    $history = new History();
+                    $history->customer_id = $request->customer_id;
+                    $history->note = 'Post';
+                    $history->amount = $coin;
+                    $history->save();
+
                     return response()->json([
                         'status' => 'success',
                         'data' => new PostResource($post)
@@ -510,7 +519,13 @@ class PostController extends Controller
                     if( $post ){
                         $post->total_comment = $count;
                         $post->save();
-                    }
+                    }     
+                    $coin = Coins::where('id',3)->first()->amount;
+                    $history = new History();
+                    $history->customer_id = $request->customer_id;
+                    $history->note = 'Comments';
+                    $history->amount = $coin;
+                    $history->save();
 
                     return response()->json([
                         'status' => 'success',
