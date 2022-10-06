@@ -67,6 +67,10 @@
                                <td>{{ $customer->marital_status ?? 'N/A' }}</td>
                           </tr>
                           <tr>
+                               <td>Coin</td>
+                               <td>{{ $customer->coin ?? '0' }}</td>
+                          </tr>
+                          <tr>
                                <td>OTP Verified</td>
                                <td>
                                     @if( $customer->is_otp_verified == true )

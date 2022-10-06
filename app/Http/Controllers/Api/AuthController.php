@@ -7,6 +7,7 @@ use App\Http\Resources\CustomerModule\CustomerResource;
 use App\Models\CustomerModule\Customer;
 use App\Models\CustomerModule\Verify;
 use App\Models\CustomerModule\History;
+use App\Models\SettingsModule\Coins;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -511,10 +512,11 @@ class AuthController extends Controller
 
                     if ($customer->save()) {
                         if(History::where('customer_id',$customer_id)->where('note','Registration')->count()==0){
+                            $coin = Coins::where('id',2)->first()->amount;
                             $history = new History();
                             $history->customer_id = $customer_id;
                             $history->note = 'Registration';
-                            $history->amount = '5';
+                            $history->amount = $coin;
                             $history->save();
                         }
                         $customer['coin'] = History::where('customer_id',$customer_id)->sum('amount');

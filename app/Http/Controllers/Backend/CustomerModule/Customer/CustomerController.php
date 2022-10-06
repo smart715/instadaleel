@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend\CustomerModule\Customer;
 
 use App\Http\Controllers\Controller;
 use App\Models\CustomerModule\Customer;
+use App\Models\CustomerModule\History;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -70,6 +71,7 @@ class CustomerController extends Controller
                 $customer = Customer::where("id", $id)->first();
 
                 if ($customer) {
+                    $customer['coin'] = History::where('customer_id',$customer->id)->sum('amount');
                     return view("backend.modules.customer_module.customer.modals.view", compact("customer"));
                 } else {
                     return "No customer found";
